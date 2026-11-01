@@ -1,0 +1,6 @@
+pandas>=2.2.3,<3.0
+openpyxl>=3.1.5,<4
+# XML entity protection for untrusted XLSX, recommended by openpyxl.
+defusedxml>=0.7.1,<1
+streamlit>=1.45,<2
+pytest>=8.3,<10

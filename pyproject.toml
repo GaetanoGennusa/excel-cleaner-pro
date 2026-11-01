@@ -1,0 +1,9 @@
+[project]
+name = "excel-cleaner-pro"
+version = "0.1.0"
+description = "Conservative local spreadsheet cleaning with an auditable export"
+requires-python = ">=3.12"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
