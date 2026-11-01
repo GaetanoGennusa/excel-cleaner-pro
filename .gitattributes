@@ -1,0 +1,5 @@
+# Keep code/documentation consistent and preserve exact synthetic/export bytes.
+* text=auto eol=lf
+*.csv -text
+*.xlsx binary
+*.png binary
