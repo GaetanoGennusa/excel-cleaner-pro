@@ -1,0 +1,18 @@
+{
+  "timestamp": "2026-11-04T21:38:40.272Z",
+  "browser": "155.0.8059.12",
+  "checks": [
+    "initial_screen",
+    "csv_upload_and_profile",
+    "sidebar_navigation",
+    "explicit_rules_and_duplicate_confirmation",
+    "actual_xlsx_and_csv_downloads",
+    "undo_and_reset",
+    "xlsx_upload_and_sheet_selection",
+    "empty_and_invalid_files_rejected",
+    "file_upload_size_limit",
+    "narrow_viewport"
+  ],
+  "pageErrors": [],
+  "blockedExternalOrigins": []
+}

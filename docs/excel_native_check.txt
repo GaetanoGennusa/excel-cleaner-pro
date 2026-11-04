@@ -1,0 +1,63 @@
+# Apertura nativa in Microsoft Excel — 4 novembre 2026, 23:57 Europe/Rome
+#
+# Microsoft Excel 16.0 (build 20527) via automazione COM, sola lettura (UpdateLinks=0, ReadOnly=True),
+# macro disattivate (AutomationSecurity=3), finestra non visibile. Valori letti da Excel:
+# Formula = contenuto della cella come lo vede Excel, [tipo] = tipo di Value2. Nessuna ispezione grafica.
+# browser_report.xlsx = report scaricato dal browser (giro 2026-11-04T22:52Z, stessa configurazione di demo/qa_report.xlsx).
+# untrusted_report.xlsx = demo/07_untrusted_text.csv esportato dal motore senza regole (testi simili a formule).
+# L'esportazione PDF da Excel non si e' completata (bloccata, probabile stampante predefinita di rete): nessun rendering grafico.
+
+
+23:57:48 creating Excel.Application
+23:57:49 Excel version 16.0, build 20527
+23:57:49 opening browser_report.xlsx read-only
+23:57:49 opened browser_report.xlsx: sheets = Cleaned_Data, Issues, Change_Log, Metadata
+23:57:50   sheet Cleaned_Data: used $A$1:$D$4, formula cells 0
+23:57:50     row 1: code [String] | name [String] | amount [String] | date [String]
+23:57:50     row 2: 001 [String] | Ada Test [String] | 1234.56 [Double] | 2025-02-01 [String]
+23:57:50     row 3: 002 [String] | Bruno Demo [String] | 12.5 [Double] | 2025-03-15 [String]
+23:57:50     row 4: 003 [String] | Carla Sintetica [String] | unknown [String] | 31/02/2025 [String]
+23:57:50   sheet Issues: used $A$1:$D$5, formula cells 0
+23:57:50     row 1: row [String] | column [String] | issue [String] | value [String]
+23:57:50     row 2: 2 [Double] | date [String] | Data ambigua: scegliere un formato esplicito [String] | 01/02/2025 [String]
+23:57:50     row 3: 4 [Double] | * [String] | Duplicato esatto [String] |  [empty]
+23:57:50     row 4: 5 [Double] | amount [String] | Numero non valido per il formato selezionato [String] | unknown [String]
+23:57:50     row 5: 5 [Double] | date [String] | day is out of range for month [String] | 31/02/2025 [String]
+23:57:50   sheet Change_Log: used $A$1:$E$13, formula cells 0
+23:57:50     row 1: row [String] | column [String] | operation [String] | before [String] | after [String]
+23:57:50     row 2: 2 [Double] | name [String] | trim [String] |   Ada Test   [String] | Ada Test [String]
+23:57:50     row 3: 3 [Double] | name [String] | trim [String] |  BRUNO DEMO  [String] | BRUNO DEMO [String]
+23:57:50     row 4: 3 [Double] | name [String] | title [String] | BRUNO DEMO [String] | Bruno Demo [String]
+23:57:50     row 5: 4 [Double] | name [String] | trim [String] |  BRUNO DEMO  [String] | BRUNO DEMO [String]
+23:57:50     row 6: 4 [Double] | name [String] | title [String] | BRUNO DEMO [String] | Bruno Demo [String]
+23:57:50   sheet Metadata: used $A$1:$B$9, formula cells 0
+23:57:50     row 1: key [String] | value [String]
+23:57:50     row 2: timestamp_utc [String] | 2026-11-04T22:52:22.934927+00:00 [String]
+23:57:50     row 3: configuration_json [String] | {"case_columns": {"name": "title"}, "confirm_duplicates": true, "date_columns": {"date": "%d/%m/%Y"}, "drop_duplicates": true, "headers": false, "number_columns": {"amount": "it"}, "trim": true} [String]
+23:57:50     row 4: ingestion_json [String] | {"encoding": "utf-8-sig", "format": "csv", "headers": [{"assigned": "code", "source": "code"}, {"assigned": "name", "source": "name"}, {"assigned": "amount", "source": "amount"}, {"assigned": "date", "source": "date"}], "separator": ";", "sha256": "20aaa097fae4a2d05af2123e269eabc651ef84d56ce75d267e83cc2d5838bd75"} [String]
+23:57:50     row 5: integrity_checks_json [String] | {"column_count_preserved": true, "deletion_authorized": true, "missing_values_preserved": true, "row_accounting": true, "source_order_preserved": true, "unique_headers": true} [String]
+23:57:50     row 6: modified_rows [String] | 3 [Double]
+23:57:50 closed browser_report.xlsx
+23:57:50 opening untrusted_report.xlsx read-only
+23:57:50 opened untrusted_report.xlsx: sheets = Cleaned_Data, Issues, Change_Log, Metadata
+23:57:50   sheet Cleaned_Data: used $A$1:$B$4, formula cells 0
+23:57:50     row 1: code [String] | note [String]
+23:57:50     row 2: 001 [String] | =1+1 [String]
+23:57:50     row 3: 002 [String] | @SUM(A1) [String]
+23:57:50     row 4: 003 [String] | +1+2 [String]
+23:57:50   sheet Issues: used $A$1:$D$4, formula cells 0
+23:57:50     row 1: row [String] | column [String] | issue [String] | value [String]
+23:57:50     row 2: 2 [Double] | note [String] | Testo simile a formula; esportazione protetta [String] | =1+1 [String]
+23:57:50     row 3: 3 [Double] | note [String] | Testo simile a formula; esportazione protetta [String] | @SUM(A1) [String]
+23:57:50     row 4: 4 [Double] | note [String] | Testo simile a formula; esportazione protetta [String] | +1+2 [String]
+23:57:50   sheet Change_Log: used $A$1:$E$1, formula cells 0
+23:57:50     row 1: row [String] | column [String] | operation [String] | before [String] | after [String]
+23:57:50   sheet Metadata: used $A$1:$B$9, formula cells 0
+23:57:50     row 1: key [String] | value [String]
+23:57:50     row 2: timestamp_utc [String] | 2026-11-04T22:53:40.559705+00:00 [String]
+23:57:50     row 3: configuration_json [String] | {"case_columns": {}, "confirm_duplicates": false, "date_columns": {}, "drop_duplicates": false, "headers": false, "number_columns": {}, "trim": false} [String]
+23:57:50     row 4: ingestion_json [String] | {"encoding": "utf-8-sig", "format": "csv", "headers": [{"assigned": "code", "source": "code"}, {"assigned": "note", "source": "note"}], "separator": ";", "sha256": "7f94202e57e84647fa65a2b6ae7c59629b6f8396613aa57775f8033f5da67e64"} [String]
+23:57:50     row 5: integrity_checks_json [String] | {"column_count_preserved": true, "deletion_authorized": true, "missing_values_preserved": true, "row_accounting": true, "source_order_preserved": true, "unique_headers": true} [String]
+23:57:50     row 6: modified_rows [String] | 0 [Double]
+23:57:50 closed untrusted_report.xlsx
+23:57:50 Excel quit

@@ -14,6 +14,8 @@ Aprire `http://127.0.0.1:8501` nel browser. Tenere aperto il terminale; per ferm
 
 ## Una prova di pochi minuti
 
+L'interfaccia è scura, con accento verde smeraldo, schede e una barra delle fasi che resta visibile scorrendo. Dopo il caricamento, i link nella sidebar portano alle sezioni disponibili. Se applichi senza attivare regole, compare **Nessuna trasformazione selezionata**: il report contiene correttamente gli originali. Per rimuovere duplicati servono sia la regola sia la conferma.
+
 1. Nella barra laterale scegliere codifica `utf-8-sig` e separatore **Punto e virgola ;**.
 2. In Upload selezionare [10_before.csv](10_before.csv) dalla cartella demo e premere **Carica dataset**. Si devono vedere quattro righe e quattro colonne.
 3. In Cleaning Rules attivare la rimozione degli spazi. Scegliere `name` tra le colonne di testo e modalità `title`.
@@ -27,7 +29,7 @@ Il CSV scaricato usa `;` e numeri con punto decimale. Per evitare che Excel rein
 
 ## Screenshot autentici per il portfolio
 
-Sono ora disponibili [screenshot autentici della UI](screenshots/README.md) e un [report realmente scaricato dal browser](browser_report.xlsx). In questo scenario browser le date sono intenzionalmente lasciate invariate; il report `10_report.xlsx` applica anche la conversione data. L'apertura manuale in Excel/LibreOffice e la scelta del formato data nel browser restano da verificare.
+Sono disponibili [screenshot autentici dell'interfaccia attuale](screenshots-dark/README.md) e un [report realmente scaricato dal browser](qa_report.xlsx), ottenuto con le stesse regole di questa prova, compreso il formato data. Il report è stato aperto in Excel in modo automatico; l'ispezione visiva del workbook resta da fare con la [checklist manuale](../docs/MANUAL_QA.md).
 
 Se non sono disponibili acquisizioni automatiche verificate, crearli manualmente dopo questa prova:
 

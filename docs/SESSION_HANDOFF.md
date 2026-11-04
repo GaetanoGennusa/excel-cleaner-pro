@@ -1,4 +1,56 @@
-# Punto di ripresa — 2 novembre 2026
+# Punto di ripresa — 5 novembre 2026
+
+## Stato attuale
+
+Versione consolidata e salvata con un commit locale (vedi `git log -1`). Interfaccia **scura con accento smeraldo**, scelta dall'utente: `ui/theme.css`, `ui/presentation.py`, `.streamlit/config.toml`. Motore `excel_cleaner/` invariato. Nessuna funzionalità aggiunta in questa fase; nessuna pubblicazione o candidatura.
+
+Ultima verifica, il 4 novembre 2026 tra le 23:00 e le 23:58 Europe/Rome:
+
+- **49 test pytest superati**, 0 falliti.
+- **Driver browser riscritto: 31 passaggi**, superati in 3 giri consecutivi più un giro finale. Coprono il formato data scelto nell'interfaccia, animazioni attive e movimento ridotto, cambio di file/separatore/codifica/foglio e rimozione nella stessa pagina, tablet e telefono con flusso completo.
+- **Report scaricati verificati con openpyxl e aperti in Microsoft Excel 16.0** in sola lettura.
+
+Dettagli, problemi corretti e limiti: [FINAL_QA_REPORT.md](FINAL_QA_REPORT.md), prima sezione.
+
+Correzioni di questa fase:
+
+- **Driver browser**: i menu venivano chiusi da uno scorrimento subito dopo l'apertura quando il controllo era al bordo della finestra. Non è un difetto del motore.
+- **Etichette delle caselle**: non sono più troncate su schermi stretti, con un controllo di regressione nel driver.
+
+## Da fare, in ordine
+
+1. Ispezione grafica di `demo/qa_report.xlsx` in Excel con la checklist di [MANUAL_QA.md](MANUAL_QA.md). L'apertura automatica in Excel è stata fatta, l'ispezione visiva no.
+2. Prova manuale con mouse e tastiera nel browser usato davvero; poi Firefox o Edge e un telefono reale.
+3. Installazione su un Windows pulito e prova con un dataset sintetico vicino ai limiti.
+4. Solo dopo: personalizzare le bozze Fiverr/Upwork, che restano non pubblicate.
+
+## Comandi
+
+```powershell
+.\.venv\Scripts\python.exe -m streamlit run app.py
+.\.venv\Scripts\python.exe -m pytest -q
+.\.venv\Scripts\python.exe -m scripts.browser_qa
+```
+
+Il terzo comando richiede Node, Playwright e Chromium già installati (vedi [BROWSER_QA.md](BROWSER_QA.md)) e la porta 8521 libera. Ambiente virtuale, cache e `outputs/` sono esclusi da Git.
+
+---
+
+# Storico delle sessioni precedenti
+
+Le sezioni seguenti descrivono stati passati e non rappresentano la versione attuale.
+
+## 4 novembre 2026, sera — tema scuro e design premium
+
+Design premium e responsive, poi tema scuro rifinito osservando siti professionali (solo principi, nessun marchio). Note e verifiche di allora in [UI_REDESIGN.md](UI_REDESIGN.md).
+
+## 4 novembre 2026 — restyling chiaro
+
+L'utente ha scelto e ricevuto il restyling **dashboard chiara e professionale, verde petrolio**. Implementato in `app.py`, `.streamlit/config.toml` e `ui/presentation.py`: schede, indicatore delle fasi, ancore reali di navigazione, riepiloghi e avviso di export originale senza regole. Nessuna skill di terzi installata. Motore invariato.
+
+Verifiche attuali: **46 test pytest e 10 scenari browser passati**, zero richieste di risorse esterne nel giro conclusivo. Consultare `docs/UI_REDESIGN.md`. Screenshot aggiornati in `demo/screenshots-redesign/`; report reale del browser in `demo/ui_report.xlsx`. La versione minima Streamlit è ora 1.66, già presente nel runtime/lock verificato. Le verifiche manuali ancora aperte rimangono esplicite nel rapporto.
+
+## Storico della sessione del 2 novembre
 
 Excel Cleaner Pro è implementato e verificato. Risultati dell'ultima revisione: **45 test pytest superati** e **9 scenari reali Chromium/Playwright superati**, inclusi download effettivi e riapertura dell'XLSX con openpyxl. Riferimento completo: `docs/FINAL_QA_REPORT.md`. Portfolio, bozze Fiverr/Upwork, guida, sceneggiatura e screenshot autentici sono salvati nel progetto.
 

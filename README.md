@@ -4,6 +4,8 @@ Applicazione locale per pulire e controllare Excel e CSV con regole esplicite, a
 
 ## Requisiti e installazione Windows
 
+L'interfaccia attuale è scura, con accento smeraldo, schede, barra delle fasi e navigazione laterale; si adatta a tablet e telefono. Richiede Streamlit 1.66+ (già indicato in `requirements.txt`). Usa solo caratteri e risorse locali. L'ultima verifica (4–5 novembre 2026) è nel [rapporto QA finale](docs/FINAL_QA_REPORT.md): 49 test automatici, 31 passaggi browser e apertura del report in Microsoft Excel, con [screenshot reali](demo/screenshots-dark/README.md). L'ispezione grafica del report e le prove manuali restano da completare.
+
 Windows 10/11, PowerShell, Python **3.12 o superiore** con pip (consigliato 3.12), almeno 4 GB di RAM disponibili. Installare Python da python.org se `py --version` non funziona. Non serve Excel per eseguire l'app; per la verifica finale di apertura è utile Excel o LibreOffice. Internet serve solo all'installazione delle dipendenze, non all'elaborazione dei file.
 
 Dalla cartella del progetto:

@@ -1,5 +1,7 @@
 # Dimostrazione Excel Cleaner Pro
 
+L'interfaccia attuale (tema scuro) è documentata nelle [schermate reali](screenshots-dark/README.md), con il [report scaricato dal browser](qa_report.xlsx) e il [CSV](qa_cleaned.csv) dell'ultima verifica. Le schermate e i file delle versioni precedenti restano come storico: [variante chiara premium](screenshots-premium/README.md), [restyling chiaro](screenshots-redesign/README.md) con [report](ui_report.xlsx), e [prime schermate](screenshots/README.md).
+
 Tutti i dati di questa cartella sono inventati. Non rappresentano clienti, persone o transazioni reali.
 
 Rigenera i file dalla radice del progetto con `.\.venv\Scripts\python.exe -m scripts.generate_demo`.
@@ -25,4 +27,4 @@ Il cliente può confrontare i dati originali con il risultato, vedere quali valo
 
 I file con testi simili a formule sono deliberatamente non attendibili: usa l'applicazione per verificarli ed esportarli; non aprirli direttamente in un foglio di calcolo.
 
-La [guida per non tecnici](QUICKSTART.md) illustra l'avvio e la prova. [Screenshot reali](screenshots/README.md), [report scaricato dal browser](browser_report.xlsx) e [CSV del browser](browser_cleaned.csv) documentano un secondo scenario: spazi, case, importi italiani e duplicati, senza conversione data. Le date restano quindi differenti dal report `10_report.xlsx`, che include quella regola. Il generatore demo rigenera i file numerati, senza sovrascrivere le prove browser.
+La [guida per non tecnici](QUICKSTART.md) illustra l'avvio e la prova. Storico del 2 novembre: [screenshot](screenshots/README.md), [report scaricato dal browser](browser_report.xlsx) e [CSV del browser](browser_cleaned.csv) documentano uno scenario senza conversione data. Il generatore demo rigenera i file numerati, senza sovrascrivere le prove browser.

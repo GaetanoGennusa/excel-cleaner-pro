@@ -1,5 +1,7 @@
 # Screenshot reali — dimostrazione sintetica
 
+> **Storico.** Prima interfaccia del 2 novembre. Schermate attuali: [screenshots-dark](../screenshots-dark/README.md).
+
 Acquisizioni della vera applicazione Streamlit in Chromium headless 155.0.8059.12, eseguite il 2 novembre 2026 (Europe/Rome) su dati completamente inventati. Nessuna immagine generata, fotomontaggio o interfaccia ricostruita. Le PNG sono copiate integralmente dagli output del driver, senza ritocchi.
 
 | File | Contenuto realmente acquisito |

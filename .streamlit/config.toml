@@ -3,12 +3,34 @@ address = "127.0.0.1"
 maxUploadSize = 10
 headless = true
 
+[client]
+# Hide developer-only toolbar items such as "Deploy".
+toolbarMode = "minimal"
+
 [browser]
 gatherUsageStats = false
 
 [theme]
-primaryColor = "#137C66"
-backgroundColor = "#F7F9FC"
-secondaryBackgroundColor = "#EAF0F5"
-textColor = "#172B3A"
-font = "sans serif"
+base = "dark"
+primaryColor = "#2BD6A3"
+linkColor = "#5FE3BC"
+backgroundColor = "#08090A"
+secondaryBackgroundColor = "#16171A"
+textColor = "#E3E5E6"
+# Local system fonts only (Inter if installed, Segoe UI Variable on Windows 11, system UI on macOS).
+font = "Inter, Segoe UI Variable Text, -apple-system, BlinkMacSystemFont, system-ui, sans-serif"
+borderColor = "#26282C"
+dataframeHeaderBackgroundColor = "#141517"
+baseRadius = "0.6rem"
+buttonRadius = "0.6rem"
+showWidgetBorder = true
+showSidebarBorder = true
+headingFontSizes = ["2.15rem", "1.4rem", "1.05rem"]
+headingFontWeights = [600, 600, 600]
+paddingTop = "2.5rem"
+paddingBottom = "2rem"
+
+[theme.sidebar]
+backgroundColor = "#0B0C0D"
+secondaryBackgroundColor = "#16171A"
+paddingTop = "2rem"

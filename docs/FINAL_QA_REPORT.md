@@ -1,5 +1,100 @@
 # Excel Cleaner Pro — revisione finale
 
+## Versione attuale — verifica del 4–5 novembre 2026
+
+Questa sezione descrive la versione attuale: interfaccia scura con accento smeraldo (`ui/theme.css`, `.streamlit/config.toml`), motore `excel_cleaner/` invariato rispetto al commit `aca0974`. Le sezioni «Storico» più in basso descrivono versioni precedenti e non vanno lette come stato corrente.
+
+Ambiente: Windows 11, Python 3.12.14, pandas 2.3.3, openpyxl 3.1.5, Streamlit 1.66.1, pytest 9.2.0, Chromium headless 155.0.8059.12 (Playwright già installato), Microsoft Excel 16.0 build 20527. Nessuna nuova dipendenza installata. LibreOffice non è installato.
+
+### Comandi eseguiti e risultati effettivi
+
+| Comando | Risultato |
+| --- | --- |
+| `.\.venv\Scripts\python.exe -m pytest -q` (inizio) | 49 passed, 0 failed |
+| `.\.venv\Scripts\python.exe -m scripts.browser_qa` (inizio, driver precedente) | **Fallito** al 4° scenario: il menu `amount · numero` non si apriva (vedi problema 1) |
+| `scripts.browser_qa` con il nuovo driver, dopo le correzioni | 3 giri consecutivi superati, più un giro finale superato: 31 passaggi browser ciascuno, verifiche sui download riuscite |
+| Giro finale `scripts.browser_qa` | 31/31 passaggi, 0 errori di pagina, 0 richieste esterne; fine `2026-11-04T23:00:18Z` |
+| `.\.venv\Scripts\python.exe -m pytest -q` (fine) | **49 passed, 0 failed** |
+| `.\.venv\Scripts\python.exe -m scripts.smoke_server` | HTTP 200 `ok`, solo 127.0.0.1 |
+| `.\.venv\Scripts\python.exe -m pip check` | No broken requirements found |
+
+Evidenze del giro finale: [risultati browser](final_browser_results.json), [controllo dei file scaricati](final_artifact_validation.json), [schermate](../demo/screenshots-dark/README.md), [report XLSX scaricato](../demo/qa_report.xlsx), [CSV scaricato](../demo/qa_cleaned.csv). Originali completi in `outputs/browser-qa-20261104T225917762219Z/` (escluso da Git).
+
+### Problemi rilevati e correzioni
+
+1. **Menu chiusi dal test browser (difetto del driver, non dell'app).** Riprodotto: dopo il clic il menu si apriva e si richiudeva da solo in circa 40 ms. Gli eventi registrati mostrano la causa. Il driver cliccava un controllo fuori schermo; Playwright lo portava al bordo della finestra e, appena aperto, il componente dei menu di Streamlit faceva scorrere ancora la pagina, che chiude il menu. Lo stesso accadeva con l'interfaccia precedente, quindi non dipende dal tema né dal motore. Il vecchio metodo (digitare, freccia giù, Invio) poteva inoltre lasciare nel campo un testo non confermato. Correzione nel driver: ogni controllo viene portato a metà finestra, si attende che sia fermo, poi si clicca il menu e l'opzione, come farebbe una persona. Il valore effettivamente applicato è verificato tramite il conteggio delle regole e il file scaricato. Nessuna pausa fissa, nessun nuovo tentativo, nessuna scrittura nello stato Streamlit. Per un utente reale il caso corrisponde a cliccare un menu mezzo nascosto sul bordo della finestra: il menu può richiudersi e basta riaprirlo. È un comportamento del componente Streamlit, non corretto dal progetto.
+2. **Etichette delle caselle troncate su tablet e telefono (difetto del design).** A 900 e 390 px, «Rimuovi spazi esterni e comprimi spazi interni» e le altre regole finivano con «…». Streamlit tronca le etichette dei controlli: con il carattere e i riquadri del nuovo tema il testo non ci stava più. Correzione: le etichette delle caselle vanno a capo (`ui/theme.css`). Regressione: il driver fallisce se un'etichetta di casella è troncata su tablet o telefono. Il controllo è fallito sullo stile senza correzione ed è superato dopo.
+3. **Aspettative errate del nuovo driver, corrette sul comportamento verificato.** (a) Sostituendo il file, l'app non mostra «Sorgente o impostazioni cambiate» perché l'uploader rimuove prima il file precedente. Profilo, regole e download vengono comunque invalidati, e ora il test verifica proprio questo. Il messaggio resta richiesto per separatore, codifica e foglio. (b) Il numero di righe atteso per `demo/04_italian_amounts.csv` era sbagliato: ora il report è confrontato con il file sorgente letto dal motore.
+
+Nessuna regola del motore è stata modificata. Invarianti confermati nei download: originali intatti, data ambigua invariata senza formato scelto, `001` testuale, nulli non riempiti, eliminazione solo della copia esatta confermata, nessuna cella formula.
+
+### Scenari browser coperti dal giro finale
+
+| Gruppo | Passaggi |
+| --- | --- |
+| Desktop 1440 px, **movimento ridotto** | schermata iniziale, upload e profilo, link laterale alle regole, regole con formato data esplicito e conferma duplicati, download XLSX e CSV, annulla e ripristina |
+| Desktop 1440 px, **animazioni attive** | gli stessi sei passaggi |
+| Stessa sessione, senza ricaricare | regola senza formato data, sostituzione del file, cambio separatore, cambio codifica, cambio foglio XLSX, rimozione del file |
+| File non validi | CSV vuoto, CSV malformato, file oltre 10 MB |
+| Tablet 900 px e telefono 390 px, animazioni attive | schermata iniziale, upload, regole con formato data, anteprima, export con download; nessuno scorrimento orizzontale della pagina; etichette non troncate |
+
+**Formato data (controllo A).** Con spazi, `title` su `name`, numeri italiani su `amount`, `%d/%m/%Y` su `date` e deduplica confermata, i report scaricati in entrambe le modalità di movimento contengono:
+
+- 3 righe dati: `001` testo, importo numerico `1234.56`, data `2025-02-01` derivata da `01/02/2025`;
+- `unknown` e `31/02/2025` conservati e presenti in Issues;
+- `configuration_json` in Metadata con `date_columns = {"date": "%d/%m/%Y"}`;
+- Change_Log con `01/02/2025 → 2025-02-01` alla riga 2, `drop_exact_duplicate` alla riga 4 e nessuna modifica su `code`.
+
+Anche il CSV scaricato ha 3 righe, `001` e `2025-02-01`. Senza formato scelto la data resta `01/02/2025` ed è segnalata come ambigua.
+
+**Animazioni (controllo B).** Menu, link laterale con scorrimento morbido, barra delle fasi, caselle, pulsanti, confronto e download superati con animazioni attive e con movimento ridotto, in 4 giri consecutivi dopo l'ultima correzione. Non è una garanzia assoluta: è l'esito di questi giri automatici.
+
+**Cambio sorgente (controllo C).** Dopo ogni cambio di file, separatore, codifica o foglio, e dopo la rimozione del file, spariscono profilo, anteprima e pulsanti di download, e serve un nuovo «Carica dataset». Il report scaricato dopo la sostituzione contiene soltanto i dati del secondo file.
+
+**Schermi stretti (controllo D).** A 390 e 900 px il flusso completo funziona; le tabelle scorrono al proprio interno, la pagina no. Ispezione visiva delle schermate eseguita. Dettaglio estetico residuo: a 900 px l'etichetta «Maiuscole/minuscole» va a capo a metà parola nella colonna stretta.
+
+### Apertura del report in Excel
+
+| Livello | Esito |
+| --- | --- |
+| Verifica XML con openpyxl | **Superata** per tutti i report scaricati: fogli, valori, tipi, Issues, Change_Log, Metadata, zero celle formula |
+| Apertura nel programma nativo | **Superata**: Microsoft Excel 16.0 (build 20527) ha aperto, in sola lettura e con macro disattivate, il report scaricato dal browser e un report di `demo/07_untrusted_text.csv`. Excel vede quattro fogli, `001` come testo, `1234.56` come numero, `2025-02-01`, `unknown`, `31/02/2025`, zero celle con formula; `=1+1`, `@SUM(A1)` e `+1+2` restano testo. Registro: [excel_native_check.txt](excel_native_check.txt) |
+| Ispezione grafica del workbook in Excel | **Non eseguita.** L'esportazione PDF da Excel non si è completata, probabilmente per la stampante predefinita di rete. Non ho cambiato la stampante di Windows né aperto Excel in primo piano. Checklist in [MANUAL_QA.md](MANUAL_QA.md) |
+
+LibreOffice non è installato: nessuna verifica con LibreOffice.
+
+### Controlli non completati
+
+- Ispezione grafica del report in Excel o LibreOffice: leggibilità, larghezze, intestazioni, testo delle formule.
+- Uso a mano con mouse e tastiera, focus da tastiera e lettori di schermo: i giri sono automatici.
+- Firefox, Safari, Edge e un telefono reale: verificato solo Chromium headless con viewport stretta.
+- Installazione su un Windows pulito, carico vicino ai limiti tecnici, tempi e memoria.
+- Accettazione su un dataset concordato con un cliente.
+
+### Giudizio
+
+**Portfolio:** presentabile come applicazione locale con evidenze riproducibili. Il flusso completo, compresa la scelta del formato data, è verificato nel browser e sui file scaricati, e il report si apre correttamente in Excel.
+
+**Incarichi commerciali:** non dichiarato commercialmente pronto. Prima di un incarico a pagamento servono l'ispezione grafica del report, una prova manuale nel browser usato davvero e criteri di accettazione concordati. La fascia EUR 25–40 resta un'ipotesi da validare.
+
+### Avvio
+
+```powershell
+.\.venv\Scripts\python.exe -m streamlit run app.py
+```
+
+Aprire `http://127.0.0.1:8501`. Arresto con `Ctrl+C`.
+
+---
+
+# Storico — revisione del 4 novembre 2026 (restyling chiaro, versione precedente)
+
+Completato e verificato il restyling chiaro/verde petrolio, con 46 test e 10 scenari browser superati. Dettagli in [UI_REDESIGN.md](UI_REDESIGN.md). Questa versione è stata sostituita dal tema scuro.
+
+# Storico — revisione del 2 novembre 2026
+
+Il testo seguente descrive la versione del 2 novembre e i limiti di allora. Alcuni, come il formato data nel browser e il cambio di sorgente nella stessa sessione, sono stati chiusi nella verifica attuale qui sopra.
+
 Data locale: **2 novembre 2026, Europe/Rome**. Revisione del progetto esistente, senza ricostruzione o pubblicazione. Solo fixture sintetiche; nessun documento inviato a servizi esterni. La prima verifica rimane in `VERIFICATION.md` come registrazione storica.
 
 ## Ambiente e risultati automatici

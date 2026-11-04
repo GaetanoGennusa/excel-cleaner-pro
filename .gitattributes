@@ -1,5 +1,6 @@
 # Keep code/documentation consistent and preserve exact synthetic/export bytes.
 * text=auto eol=lf
-*.csv -text
+# CSV exports use CRLF record endings (csv module default); keep bytes and do not flag the CR.
+*.csv -text whitespace=cr-at-eol
 *.xlsx binary
 *.png binary

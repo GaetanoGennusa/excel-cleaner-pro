@@ -37,6 +37,7 @@ def test_default_apply_trim_undo_reset_and_clear():
     button(app, "Applica e mostra anteprima").click().run()
     assert not app.exception
     assert app.session_state["result"].modified_rows == 0
+    assert any("Nessuna trasformazione selezionata" in message.value for message in app.info)
     trim = next(widget for widget in app.checkbox if widget.label.startswith("Rimuovi spazi"))
     trim.check()
     button(app, "Applica e mostra anteprima").click().run()
@@ -84,3 +85,19 @@ def test_explicit_date_widget_commits_format_and_export():
     assert workbook["Cleaned_Data"]["B2"].value == "2025-02-01"
     assert app.session_state["original"].loc[0, "date"] == "01/02/2025"
     workbook.close()
+
+
+def test_confirmation_alone_keeps_duplicates_and_explains_original_export():
+    app = AppTest.from_file(str(APP), default_timeout=20).run()
+    source = pd.DataFrame({"code": ["001", "001"], "name": [" Demo ", " Demo "]})
+    app.session_state["original"] = source
+    app.session_state["profile"] = profile_data(source)
+    app.run()
+    next(widget for widget in app.checkbox if widget.label.startswith("Confermo la rimozione")).check()
+    button(app, "Applica e mostra anteprima").click().run()
+    assert not app.exception
+    result = app.session_state["result"]
+    pd.testing.assert_frame_equal(result.data, source)
+    assert result.removed_rows == 0
+    assert result.modified_rows == 0
+    assert any("Nessuna trasformazione selezionata" in message.value for message in app.info)

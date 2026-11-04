@@ -32,18 +32,22 @@ With the agreed Italian format, `1.234,56` becomes the numeric value `1234.56`; 
 
 Python 3.12+, pandas, openpyxl and Streamlit; pytest and Streamlit AppTest for automated checks. The interface and the ingestion, profiling, transformation, validation and export modules are separated. Synthetic fixtures cover preservation and error cases. Consult the [final QA report](docs/FINAL_QA_REPORT.md) for the latest results and remaining checks; the [initial verification](docs/VERIFICATION.md) is preserved as a historical record.
 
-Automated checks do not replace a real-browser review, native Excel/LibreOffice opening or acceptance checks for a specific client dataset. The project is presented as a portfolio application, not as a certified or universally reliable commercial product.
+Automated checks do not replace manual use in a real browser, a visual inspection of the workbook in Excel or LibreOffice, or acceptance checks for a specific client dataset. The project is presented as a portfolio application, not as a certified or universally reliable commercial product.
 
 ### Genuine interface evidence
 
 These are screenshots of the running application with synthetic data, captured in a real headless Chromium browser, not mockups:
 
-- [Data overview](demo/screenshots/02_overview.png).
-- [Before/after preview and checks](demo/screenshots/03_preview.png).
-- [Export controls](demo/screenshots/04_export.png).
-- [Screenshot provenance and scope](demo/screenshots/README.md).
+- [Upload screen](demo/screenshots-dark/01_upload.png).
+- [Data overview](demo/screenshots-dark/02_overview.png).
+- [Before/after preview and checks](demo/screenshots-dark/03_preview.png).
+- [Export controls](demo/screenshots-dark/04_export.png).
+- [Phone-width rules](demo/screenshots-dark/05_mobile_rules.png) and [tablet-width preview](demo/screenshots-dark/09_tablet_preview.png).
+- [Screenshot provenance and scope](demo/screenshots-dark/README.md).
 
-The browser demonstration applies whitespace cleanup, title case, Italian amounts and confirmed exact deduplication. It deliberately leaves dates unchanged: date-format selection still requires manual browser verification, although engine and AppTest checks pass. The [workbook actually downloaded in the browser](demo/browser_report.xlsx) and [its CSV](demo/browser_cleaned.csv) document this scenario. The earlier `10_report.xlsx` example also applies date conversion; it represents a different explicit configuration.
+The current interface is dark with an emerald accent, a sticky progress bar and sidebar navigation, and adapts to tablet and phone widths. It uses only local fonts and assets. The [final QA report](docs/FINAL_QA_REPORT.md) records 49 passing tests and 31 real-browser steps. Those steps cover date-format selection through the interface, animated and reduced-motion modes, changing the source within one session, and the full flow at tablet and phone widths. No external requests were made during the verified run.
+
+The browser scenario applies whitespace cleanup, title case, Italian amounts, the day/month/year date format and confirmed exact deduplication. [The workbook actually downloaded in the browser](demo/qa_report.xlsx) and [its CSV](demo/qa_cleaned.csv) contain three rows: `001` kept as text, `1234.56`, `2025-02-01`, and `unknown` and `31/02/2025` kept and reported. The workbook was also opened read-only in Microsoft Excel, which reads the same values and no formula cells. A visual inspection of the workbook in Excel has not yet been done. Earlier interface versions and their evidence remain available as history: [light redesign](demo/screenshots-redesign/README.md) and the [first screenshots](demo/screenshots/README.md).
 
 ## A narrowly scoped service
 
