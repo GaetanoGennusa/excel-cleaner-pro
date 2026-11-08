@@ -1,6 +1,12 @@
 # Excel Cleaner Pro
 
+[English project overview](README.en.md) · [Portfolio e demo](PORTFOLIO.md) · [Verifiche](docs/CATALOG_DEMO_QA.md)
+
 Applicazione locale per pulire e controllare Excel e CSV con regole esplicite, anteprima e tracciabilità. Prototipo da portfolio con test automatici: prima di usarlo per incarichi commerciali occorre completare la verifica manuale descritta in `docs/MANUAL_QA.md`. Nessuna promessa di accuratezza universale o certificazione contabile.
+
+![Anteprima reale: catalogo sintetico prima e dopo la pulizia](demo/product_catalog/screenshots/preview.png)
+
+Questo repository contiene codice, documentazione e dati dimostrativi inventati. L'applicazione Streamlit si avvia sul proprio computer. Per esplorare la pagina portfolio interattiva, scarica o clona il progetto e apri `demo/product_catalog/index.html` nel browser; su GitHub il file HTML viene mostrato come codice. Il [video della demo](demo/product_catalog/demo_catalogo.webm) è disponibile come file WebM.
 
 **Nuova demo catalogo prodotti:** apri [la pagina portfolio locale](demo/product_catalog/index.html) con un doppio clic. Include 200 righe sintetiche, confronto interattivo, file prima/dopo, report e un video reale muto di 38 secondi. La [guida](demo/product_catalog/README.md) permette di ripetere le stesse scelte nell'app. Verifica della demo: 54 test Python, 4 passaggi app e 5 passaggi portfolio, oltre ai 31 passaggi browser generali; [evidenze](docs/CATALOG_DEMO_QA.md).
 
