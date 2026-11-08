@@ -1,4 +1,27 @@
-# Punto di ripresa — 5 novembre 2026
+# Punto di ripresa — 8 novembre 2026
+
+## Stato più recente
+
+Sul commit `8bcd956`, completata una nuova verifica autonoma. Modifiche: regole testuali in colonne di pari larghezza; Metadata esportato con testo a capo; script ripetibili `scripts/benchmark.py` e `scripts/excel_visual_qa.ps1`. Report e screenshot sintetici aggiornati. Consultare lo stato Git per le modifiche successive al commit; non assumere che siano già committate.
+
+- 50 test superati dopo le modifiche in un ambiente virtuale ricreato offline sullo stesso PC; 44 dipendenze coerenti, avvio Streamlit riuscito. Il nuovo test controlla la rimozione dei temporanei XLSX nei percorsi provati.
+- 31 passaggi browser superati dopo le modifiche, con download verificati.
+- Quattro fogli ispezionati dall'agente su catture native di Excel 16.0, inclusa la nuova impaginazione Metadata; testi simili a formule verificati separatamente. Nessuna formula eseguibile, nessun salvataggio delle sorgenti.
+- Carico del motore fino a 500.000 celle superato in due forme (50.000 × 10 e 2.500 × 200), con scansione di tutti i fogli esportati; picco massimo osservato 347,8 MiB per worker. Circa un minuto di export per i due casi grandi, senza promessa prestazionale.
+- Precisata la privacy: openpyxl scrive XML temporanei locali durante l'export. Eliminati a successo, possono restare dopo un crash. Non dichiarare un'elaborazione esclusivamente in RAM.
+
+Evidenze e limiti: prima sezione di [FINAL_QA_REPORT.md](FINAL_QA_REPORT.md), JSON in `docs/verification-20261108/`, catture native in `demo/screenshots-excel/`. `demo/qa_report.xlsx` è il download corrente del browser. La checklist manuale resta riservata all'utente.
+
+## Prossimi passi
+
+1. Accettazione dell'utente con mouse, tastiera e Excel, usando [MANUAL_QA.md](MANUAL_QA.md).
+2. Prova su un altro Windows pulito e nel browser effettivamente usato. Il nuovo venv sullo stesso PC non sostituisce questa prova.
+3. Registrare il video di 45–60 secondi seguendo [DEMO_VIDEO_SCRIPT.md](DEMO_VIDEO_SCRIPT.md), senza dati personali. La resa nativa del report è ora documentata.
+4. Personalizzare le bozze dell'offerta mantenendo ambito e limiti; nessuna pubblicazione autorizzata.
+
+---
+
+# Storico — punto di ripresa del 5 novembre 2026
 
 ## Stato attuale
 

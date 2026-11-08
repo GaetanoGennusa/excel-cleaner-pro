@@ -1,0 +1,68 @@
+{
+  "timestamp_utc": "2026-11-08T14:03:16.258112+00:00",
+  "python": "3.12.14",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "cpu": "Intel64 Family 6 Model 158 Stepping 10, GenuineIntel",
+  "cases": [
+    {
+      "rows": 1000,
+      "columns": 20,
+      "input_cells": 20000,
+      "input_bytes": 234322,
+      "xlsx_bytes": 519719,
+      "modified_rows": 1000,
+      "change_events": 18989,
+      "seconds": {
+        "read_csv": 0.008,
+        "default_clean_including_profile": 0.102,
+        "trim_including_profile": 0.149,
+        "export_xlsx": 2.487,
+        "reopen_and_scan_all_sheets": 2.442
+      },
+      "peak_worker_memory_mib": 95.4,
+      "checks_passed": true
+    },
+    {
+      "rows": 50000,
+      "columns": 10,
+      "input_cells": 500000,
+      "input_bytes": 5754311,
+      "xlsx_bytes": 12447991,
+      "modified_rows": 50000,
+      "change_events": 449484,
+      "seconds": {
+        "read_csv": 0.236,
+        "default_clean_including_profile": 2.332,
+        "trim_including_profile": 3.3,
+        "export_xlsx": 62.433,
+        "reopen_and_scan_all_sheets": 64.618
+      },
+      "peak_worker_memory_mib": 313.6,
+      "checks_passed": true
+    },
+    {
+      "rows": 2500,
+      "columns": 200,
+      "input_cells": 500000,
+      "input_bytes": 5946635,
+      "xlsx_bytes": 13214367,
+      "modified_rows": 2500,
+      "change_events": 497474,
+      "seconds": {
+        "read_csv": 0.208,
+        "default_clean_including_profile": 2.459,
+        "trim_including_profile": 6.262,
+        "export_xlsx": 61.623,
+        "reopen_and_scan_all_sheets": 65.846
+      },
+      "peak_worker_memory_mib": 347.8,
+      "checks_passed": true
+    }
+  ],
+  "oversize_inputs_rejected": [
+    "rows_50001",
+    "columns_201",
+    "cells_500200"
+  ],
+  "scope": "Sequential synthetic CSV engine runs, not browser/Excel timing or a Windows-clean-install test."
+}

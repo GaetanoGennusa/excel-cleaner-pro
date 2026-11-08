@@ -1,4 +1,4 @@
-"""Streamlit workspace; uploads and exports live only in session memory."""
+"""Session workspace; XLSX export uses short-lived local writer files."""
 import hashlib
 
 import streamlit as st
@@ -43,7 +43,7 @@ with st.sidebar:
     st.caption("Accenti o colonne errati? Cambia queste impostazioni e carica di nuovo il dataset.")
     with st.expander("Limiti e privacy"):
         st.caption("10 MB/file · 50.000 righe · 200 colonne · 500.000 celle. XLSX espanso: 80 MB.")
-        st.write("I file sono elaborati in memoria, senza servizi esterni e senza telemetria. Gli originali restano invariati.")
+        st.write("Gli originali restano nella sessione, senza servizi esterni o telemetria. L'export XLSX usa temporanei locali, rimossi a esportazione riuscita; un arresto anomalo può lasciarne residui.")
     st.divider()
     if st.button("Cancella dati della sessione", width="stretch"):
         clear_dataset()
@@ -130,7 +130,7 @@ with st.container(border=True, key="rules_card"):
         trim = left.checkbox("Rimuovi spazi esterni e comprimi spazi interni", value=False)
         headers = right.checkbox("Standardizza intestazioni (minuscole e underscore)", value=False)
         columns = list(original.columns)
-        a, b = text_panel.columns([2, 1])
+        a, b = text_panel.columns(2)
         case_cols = a.multiselect("Colonne da normalizzare come testo", columns)
         case_mode = b.selectbox("Maiuscole/minuscole", ["lower", "upper", "title"])
         text_panel.caption("lower: minuscolo · upper: maiuscolo · title: iniziale maiuscola per ogni parola.")
@@ -222,7 +222,7 @@ with st.container(border=True, key="export_card"):
     if st.button("Prepara esportazioni", type="primary"):
         st.session_state.csv_export = export_csv(result.data)
         try:
-            with st.spinner("Generazione report in memoria…"):
+            with st.spinner("Generazione report…"):
                 st.session_state.report = export_xlsx(result)
         except (ValueError, TypeError) as exc:
             st.session_state.pop("report", None)

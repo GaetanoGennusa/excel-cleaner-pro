@@ -1,0 +1,39 @@
+Excel Cleaner Pro - verifica locale dell'8 novembre 2026
+
+Ambiente: Windows 11, Python 3.12.14; nessuna installazione globale o pubblicazione.
+
+1. Ambiente virtuale nuovo: outputs/verification-20261108/isolated-venv.
+   Creato con uv e lo stesso interprete del PC; 44 pacchetti dal requirements-lock.txt
+   installati offline dalla cache del progetto. Non e' un altro Windows pulito.
+   uv pip check: All installed packages are compatible.
+
+2. Test finale:
+   .\outputs\verification-20261108\isolated-venv\Scripts\python.exe -m pytest -q
+   50 passed in 10.28s, nessun fallimento.
+   Include la rimozione dei temporanei dopo export XLSX riuscito e testo rifiutato.
+   Non prova la cancellazione dopo crash o errori di sistema.
+
+3. Avvio nell'ambiente nuovo:
+   .\outputs\verification-20261108\isolated-venv\Scripts\python.exe -m scripts.smoke_server
+   Streamlit loopback health check: HTTP 200 ok.
+
+4. Browser finale: 31 passaggi, 0 pageErrors, 0 blockedExternalOrigins.
+   Risultati e controllo dei download nei file browser_final_results.json
+   e artifact_final_validation.json della presente cartella.
+
+5. Benchmark: tre casi superati; dimensioni, tempi e memoria in benchmark.json.
+   Ogni workbook viene riaperto e ogni foglio scandito per conteggi e formule.
+   Misure osservative del motore; non sono garanzie prestazionali.
+
+6. Excel 16.0 build 20527: apertura read-only con macro disattivate.
+   Le catture della finestra nativa sono state ispezionate dall'agente.
+   Report demo SHA256:
+   DF0C0A52B29B086F3D9FD99E71500C0FAC0BD036BF888D85BB6178426F4B8A57
+   Il file originale ispezionato e la copia demo hanno lo stesso hash.
+   I file sono stati chiusi senza salvataggio; nessuna istanza Excel creata
+   dal controllo e' rimasta aperta alla conclusione.
+
+7. git diff --check: superato. Le notifiche CRLF/LF non indicano errori.
+
+Ancora da verificare: accettazione manuale dell'utente; altro Windows;
+browser differenti e telefono fisico; accettazione specifica del cliente.

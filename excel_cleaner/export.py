@@ -1,4 +1,4 @@
-"""In-memory, formula-safe exports. Never save an uploaded workbook."""
+"""Formula-safe exports; openpyxl uses temporary local XML while writing XLSX."""
 import csv
 from datetime import date, datetime
 from io import BytesIO, StringIO
@@ -9,7 +9,7 @@ import re
 import pandas as pd
 from openpyxl import Workbook
 from openpyxl.cell import WriteOnlyCell
-from openpyxl.styles import Font, PatternFill
+from openpyxl.styles import Alignment, Font, PatternFill
 from openpyxl.utils import get_column_letter
 
 from .profile import missing
@@ -83,15 +83,22 @@ def export_xlsx(result: CleaningResult) -> bytes:
             for position in range(len(rows[0])):
                 width = min(55, max(14, max(len(str(row[position] if row[position] is not None else "")) for row in rows[:100]) + 2))
                 sheet.column_dimensions[get_column_letter(position + 1)].width = width
+            if name == "Metadata":
+                sheet.column_dimensions["B"].width = 88
         for row_position, row in enumerate(rows):
+            if name == "Metadata" and row_position > 0:
+                lines = sum(max(1, math.ceil(len(part) / 72)) for part in str(row[1]).split("\n"))
+                sheet.row_dimensions[row_position + 1].height = min(409, max(18, lines * 16))
             cells = []
-            for value in row:
+            for column_position, value in enumerate(row):
                 cell = WriteOnlyCell(sheet, value)
                 if isinstance(cell.value, str):
                     cell.data_type = "s"
                 if row_position == 0:
                     cell.font = Font(bold=True, color="FFFFFF")
                     cell.fill = PatternFill("solid", fgColor="137C66")
+                elif name == "Metadata":
+                    cell.alignment = Alignment(vertical="top", wrap_text=column_position == 1)
                 cells.append(cell)
             sheet.append(cells)
     buffer = BytesIO()

@@ -1,0 +1,40 @@
+{
+  "reduced": {
+    "rows": 3,
+    "code_001_text": true,
+    "amount_1234_56": true,
+    "date_2025_02_01": true,
+    "unknown_and_31_02_kept_and_reported": true,
+    "metadata_date_format": "%d/%m/%Y",
+    "change_log_date_and_duplicate_removal": true,
+    "csv_rows_identifier_date": true
+  },
+  "animated": {
+    "rows": 3,
+    "code_001_text": true,
+    "amount_1234_56": true,
+    "date_2025_02_01": true,
+    "unknown_and_31_02_kept_and_reported": true,
+    "metadata_date_format": "%d/%m/%Y",
+    "change_log_date_and_duplicate_removal": true,
+    "csv_rows_identifier_date": true
+  },
+  "no_date_rule": {
+    "ambiguous_date_unchanged": true,
+    "ambiguous_date_reported": true
+  },
+  "replaced_source": {
+    "report_from_second_file_only": true
+  },
+  "tablet": {
+    "rows": 4,
+    "date_2025_02_01": true,
+    "amount_1234_56": true
+  },
+  "mobile": {
+    "rows": 4,
+    "date_2025_02_01": true,
+    "amount_1234_56": true
+  },
+  "all_reports_without_formula_cells": true
+}

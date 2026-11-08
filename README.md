@@ -4,7 +4,7 @@ Applicazione locale per pulire e controllare Excel e CSV con regole esplicite, a
 
 ## Requisiti e installazione Windows
 
-L'interfaccia attuale è scura, con accento smeraldo, schede, barra delle fasi e navigazione laterale; si adatta a tablet e telefono. Richiede Streamlit 1.66+ (già indicato in `requirements.txt`). Usa solo caratteri e risorse locali. L'ultima verifica (4–5 novembre 2026) è nel [rapporto QA finale](docs/FINAL_QA_REPORT.md): 49 test automatici, 31 passaggi browser e apertura del report in Microsoft Excel, con [screenshot reali](demo/screenshots-dark/README.md). L'ispezione grafica del report e le prove manuali restano da completare.
+L'interfaccia attuale è scura, con accento smeraldo, schede, barra delle fasi e navigazione laterale; si adatta a tablet e telefono. Richiede Streamlit 1.66+ (già indicato in `requirements.txt`). Usa solo caratteri e risorse locali. Verifica dell'8 novembre 2026: 50 test automatici, 31 passaggi browser, installazione offline in un ambiente virtuale nuovo sullo stesso PC e [ispezione delle catture native in Excel](demo/screenshots-excel/README.md). Dettagli e limiti nel [rapporto QA finale](docs/FINAL_QA_REPORT.md). L'accettazione manuale dell'utente e la prova su un altro Windows restano da completare.
 
 Windows 10/11, PowerShell, Python **3.12 o superiore** con pip (consigliato 3.12), almeno 4 GB di RAM disponibili. Installare Python da python.org se `py --version` non funziona. Non serve Excel per eseguire l'app; per la verifica finale di apertura è utile Excel o LibreOffice. Internet serve solo all'installazione delle dipendenze, non all'elaborazione dei file.
 
@@ -44,11 +44,13 @@ Il report ha quattro fogli: **Cleaned_Data**, **Issues**, **Change_Log**, **Meta
 
 Change_Log registra per cella regola, prima e dopo; può avere più eventi per la stessa cella. Le righe modificate contano una sola volta le righe con modifiche alle celle, anche se poi eliminate; le eliminazioni sono contate a parte. Cambiare un'intestazione non modifica il conteggio delle righe dati. Metadata contiene timestamp UTC, configurazione, mappatura intestazioni/importazione e risultati reali dei controlli: bilancio delle righe, numero colonne, intestazioni univoche, autorizzazione eliminazioni e ordine. I controlli strutturali non provano che una data o un importo siano corretti per il cliente.
 
+I metadati sono visualizzati a capo. Per JSON molto lunghi, oltre l'altezza massima di una riga Excel, usare la barra della formula o copiare la cella: il valore resta completo. Un report con log estesi può superare i 10 MB del limite di importazione, anche quando la sorgente è accettata.
+
 ## Sicurezza e privacy
 
 I controlli includono anche la conservazione delle posizioni dei valori nulli nelle righe mantenute. Metadata registra l'impronta SHA-256 del file importato. Date Excel native contenenti anche un orario o un fuso restano inalterate con una segnalazione se selezionate per conversione; l'app non scarta l'orario. Gli interi nativi oltre 15 cifre vengono esportati in XLSX come testo per evitare perdita di precisione.
 
-Il server ascolta soltanto su `127.0.0.1`; non pubblicarlo su rete o Internet senza un progetto separato di autenticazione e sicurezza. Telemetria Streamlit disabilitata. Nessun account, API AI, connessione cloud, cache condivisa o salvataggio dei caricamenti su disco. Elaborazione e download avvengono in memoria; evitare dati riservati su PC condivisi. La cancellazione della sessione non è cancellazione forense della RAM, dei download o della memoria del browser; chiudere app/browser al termine. Non sono implementati cifratura, controllo accessi o gestione multiutente.
+Il server ascolta soltanto su `127.0.0.1`; non pubblicarlo su rete o Internet senza un progetto separato di autenticazione e sicurezza. Telemetria Streamlit disabilitata. Nessun account, API AI, connessione cloud o cache condivisa. L'app non salva i file originali caricati: dati e download pronti restano nella sessione. **Durante la creazione dell'XLSX, il writer streaming di openpyxl scrive XML temporanei nella directory temporanea di Windows**, eliminati dopo un'esportazione riuscita. Un arresto anomalo o un errore di sistema può lasciarne residui: non è un'elaborazione esclusivamente in RAM né una cancellazione forense. Evitare dati riservati su PC condivisi; chiudere app/browser al termine. La cancellazione della sessione non elimina i download, eventuali residui temporanei o la memoria del browser. Non sono implementati cifratura, controllo accessi o gestione multiutente.
 
 Le formule XLSX in ingresso sono lette come testo, mai calcolate. Nell'XLSX esportato tutte le stringhe, incluse intestazioni e log, sono forzate a testo. Il CSV aggiunge un apostrofo a stringhe che possono diventare formule (anche precedute da spazi) e quota tutti i campi. Questo altera volutamente la rappresentazione di tali stringhe nel CSV; non sostituisce l'attenzione nell'aprire file non attendibili. Excel può reinterpretare codici e date di un CSV, anche quotato: usare XLSX o importare le colonne come testo. Non abilitare macro, collegamenti esterni o contenuti attivi di file sconosciuti. L'app non modifica gli originali e non esegue le loro formule.
 
@@ -77,6 +79,8 @@ Le due skill sono in `.agents/skills/`, con frontmatter `name`/`description`. So
 ## Risoluzione problemi
 
 La verifica opzionale con browser reale si avvia con `.\.venv\Scripts\python.exe -m scripts.browser_qa` quando Node, Playwright e Chromium sono già disponibili. Non viene installato né scaricato un browser. Requisiti, evidenze e ripetizione sono descritti in [BROWSER_QA.md](docs/BROWSER_QA.md). Non è necessaria per il normale avvio dell'app.
+
+Prova di carico sintetica facoltativa: `.\.venv\Scripts\python.exe -m scripts.benchmark`. Esegue tre casi in processi separati fino a 500.000 celle e verifica conservazione, log e tutti i fogli esportati; salva tempi e picco di memoria in `outputs/benchmark.json`. Può richiedere diversi minuti e non misura browser, Excel o prestazioni garantite.
 
 - `py` non riconosciuto: installare Python dal sito ufficiale, riaprire il terminale oppure usare il percorso completo dell'interprete Python già installato. Non usare la `.venv` di un altro PC.
 - `ModuleNotFoundError`: ripetere l'installazione con **lo stesso** `.venv\Scripts\python.exe` usato per avviare l'app.

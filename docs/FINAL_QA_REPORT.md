@@ -1,6 +1,56 @@
 # Excel Cleaner Pro — revisione finale
 
-## Versione attuale — verifica del 4–5 novembre 2026
+## Versione attuale — verifica dell'8 novembre 2026
+
+Proseguimento sul commit `8bcd956`. Due modifiche circoscritte: colonne delle regole testuali di pari larghezza, per evitare la parola spezzata su tablet; testo a capo e altezze adattate nel foglio Metadata. Nessuna modifica alle conversioni o ai criteri di eliminazione.
+
+| Verifica eseguita | Esito effettivo |
+| --- | --- |
+| pytest nella `.venv` esistente, prima delle modifiche | 49 superati, 0 falliti |
+| Nuovo ambiente virtuale nello stesso Windows, dipendenze del lock installate offline con uv dalla cache locale | 44 pacchetti installati; controllo dipendenze superato |
+| pytest nel nuovo ambiente, verifica finale inclusi i temporanei XLSX | 50 superati, 0 falliti, 10,28 s |
+| Avvio Streamlit nel nuovo ambiente | HTTP 200 `ok`, solo localhost; processo fermato dopo il controllo |
+| Browser dopo le modifiche | 31/31 passaggi superati; 0 errori pagina, 0 richieste esterne; download riaperti e verificati |
+| Report in Excel 16.0 build 20527 | Apertura in sola lettura, macro disattivate; filtri, intestazioni e blocco righe presenti; nessuna formula nei fogli |
+| Ispezione visiva dell'agente su catture della finestra nativa Excel | Quattro fogli ispezionati; valori e log leggibili; nuova impaginazione Metadata ricontrollata |
+| Testi simili a formule | Report sintetico separato aperto in Excel; `=1+1`, `@SUM(A1)`, `+1+2` restano testo, `HasFormula = false` |
+| `git diff --check` | Superato |
+
+Evidenze permanenti: [browser finale](verification-20261108/browser_final_results.json), [download finali](verification-20261108/artifact_final_validation.json), [Excel](verification-20261108/excel_report.json), [testi non attendibili](verification-20261108/excel_untrusted.json), [schermate native](../demo/screenshots-excel/README.md). Il [report demo](../demo/qa_report.xlsx) e le immagini in [screenshots-dark](../demo/screenshots-dark/README.md) provengono dal giro `20261108T135920165082Z`, documentato nei [risultati](verification-20261108/browser_results.json) e nel [controllo download](verification-20261108/artifact_validation.json). Il giro finale `20261108T140733677309Z` ripete i 31 passaggi dopo la sola precisazione del testo privacy; nessuna modifica al contenuto dell'export. Il report ispezionato in Excel corrisponde byte per byte al report demo.
+
+Il tentativo iniziale di catturare una finestra Excel nascosta restituiva immagini nere, nonostante l'API dichiarasse successo. Non è stato conteggiato come verifica visiva. La prova conclusiva ha aperto temporaneamente una finestra separata visibile, catturando solo quella finestra. Nessun uso degli appunti, della stampante o di screenshot dell'intero desktop; i workbook sono stati chiusi senza salvare e il relativo hash è invariato.
+
+**Precisazione privacy verificata:** il writer streaming di openpyxl crea XML temporanei locali. L'app non salva gli originali, ma l'export non avviene esclusivamente in RAM. Aggiunto un test che controlla una directory temporanea isolata dopo esportazione riuscita e dopo rifiuto preventivo di testo incompatibile: nessun residuo. Il test non copre crash, interruzione elettrica o errori di sistema, che possono lasciare temporanei. UI, README e portfolio corretti; nessuna promessa di cancellazione forense.
+
+### Carico sintetico del motore
+
+Tre worker separati, un'esecuzione per caso, CSV sintetici con codici e nulli; regole predefinite e trim, esportazione e scansione integrale di ogni foglio. Misure su questo PC, con altre verifiche in esecuzione durante parte della prova. Non sono garanzie né un benchmark del browser o di Excel.
+
+| Dimensioni | Celle | Eventi nel log | Lettura CSV | Pulizia con trim e profilo | Export XLSX | Riapertura e scansione | Picco RAM worker |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1.000 × 20 | 20.000 | 18.989 | 0,008 s | 0,149 s | 2,487 s | 2,442 s | 95,4 MiB |
+| 50.000 × 10 | 500.000 | 449.484 | 0,236 s | 3,300 s | 62,433 s | 64,618 s | 313,6 MiB |
+| 2.500 × 200 | 500.000 | 497.474 | 0,208 s | 6,262 s | 61,623 s | 65,846 s | 347,8 MiB |
+
+Tutti i casi superati: originali intatti, configurazione predefinita senza modifiche, codici testuali e nulli conservati, conteggi esatti, log completo, quattro fogli, nessuna formula. Rifiutati anche input sintetici con 50.001 righe, 201 colonne e 500.200 celle. [Risultati JSON](verification-20261108/benchmark.json). Il picco include il processo Python e le sue librerie, non browser o Excel. Il caso più grande produce circa 13,2 MB di XLSX: l'output può superare il limite di importazione di 10 MB.
+
+### Limiti ancora aperti e prossimo passo
+
+- La verifica visiva dell'agente non equivale all'accettazione dell'utente: provare mouse, tastiera e file scaricato seguendo [MANUAL_QA.md](MANUAL_QA.md).
+- L'ambiente nuovo è sullo stesso PC, con lo stesso interprete e sistema operativo. Nessuna prova su un secondo Windows pulito; nessun download da PyPI verificato in questa fase.
+- Non provati Firefox, Safari, Edge e un telefono fisico. Il browser automatico è Chromium headless, anche alle viewport strette.
+- I casi di carico coprono queste forme e regole, non ogni contenuto né uso concorrente. Nessuna garanzia su tempi massimi o memoria.
+- Metadati molto lunghi possono superare l'altezza massima di una riga Excel: il valore resta completo nella barra della formula. Nessuna troncatura dei dati.
+- Nessun video registrato o annuncio pubblicato in questa fase. Nessun dato reale di cliente usato.
+- Temporanei del writer XLSX: rimozione verificata a esportazione riuscita e per gli errori preventivi provati; non garantita in caso di arresto anomalo.
+
+**Valutazione:** evidenze portfolio aggiornate, inclusa la resa nativa del workbook. Prima di un incarico a pagamento: accettazione manuale e criteri di consegna concordati. Non dichiarato pronto alla vendita.
+
+Ripetizione: `.\.venv\Scripts\python.exe -m pytest -q`, `.\.venv\Scripts\python.exe -m scripts.browser_qa`, `.\.venv\Scripts\python.exe -m scripts.benchmark`. Per la cattura nativa serve Excel installato: `powershell.exe -NoProfile -STA -File scripts/excel_visual_qa.ps1 -Visible`. Il nuovo ambiente temporaneo è in `outputs/verification-20261108/isolated-venv`, escluso da Git.
+
+---
+
+## Storico — verifica del 4–5 novembre 2026
 
 Questa sezione descrive la versione attuale: interfaccia scura con accento smeraldo (`ui/theme.css`, `.streamlit/config.toml`), motore `excel_cleaner/` invariato rispetto al commit `aca0974`. Le sezioni «Storico» più in basso descrivono versioni precedenti e non vanno lette come stato corrente.
 

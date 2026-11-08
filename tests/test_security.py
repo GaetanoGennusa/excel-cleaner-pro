@@ -1,6 +1,7 @@
 """Bounded inputs and literal exports for untrusted synthetic content."""
 from io import BytesIO, StringIO
 import csv
+import tempfile
 from zipfile import ZipFile
 
 from openpyxl import Workbook, load_workbook
@@ -50,3 +51,18 @@ def test_excel_length_limit_does_not_silently_truncate():
     with pytest.raises(ValueError, match="32.767"):
         export_xlsx(clean(frame, CleaningConfig()))
     assert "A" * 32768 in export_csv(frame).decode("utf-8-sig")
+
+
+def test_xlsx_export_leaves_no_temporary_data_after_success_or_rejected_text(tmp_path, monkeypatch):
+    monkeypatch.setattr(tempfile, "tempdir", str(tmp_path))
+    source = pd.DataFrame({"code": ["001"], "name": ["  Synthetic  "]})
+    payload = export_xlsx(clean(source, CleaningConfig(trim=True)))
+    with BytesIO(payload) as buffer:
+        workbook = load_workbook(buffer)
+        assert workbook["Cleaned_Data"]["A2"].value == "001"
+        workbook.close()
+    assert list(tmp_path.iterdir()) == []
+    for text in ["\x00", "A" * 32768]:
+        with pytest.raises(ValueError):
+            export_xlsx(clean(pd.DataFrame({"text": [text]}), CleaningConfig()))
+        assert list(tmp_path.iterdir()) == []

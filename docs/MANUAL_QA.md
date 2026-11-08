@@ -2,9 +2,11 @@
 
 Checklist di accettazione umana: i risultati dell'automazione successiva sono in [FINAL_QA_REPORT.md](FINAL_QA_REPORT.md). Le caselle qui restano da firmare dall'utente: non sono automaticamente spuntate da pytest o dal browser headless. AppTest non dimostra download effettivi o comportamento nativo di Excel.
 
-Versione attuale: tema scuro, verificata il 4–5 novembre 2026 con 49 test pytest, 31 passaggi browser automatici (formato data, animazioni, cambio sorgente, tablet e telefono) e apertura in Microsoft Excel in sola lettura. Dettagli nella prima sezione di [FINAL_QA_REPORT.md](FINAL_QA_REPORT.md). L'automazione non sostituisce le prove qui sotto; usare l'interfaccia attuale.
+Versione attuale: tema scuro, verificata l'8 novembre 2026 con 50 test pytest, 31 passaggi browser automatici (formato data, animazioni, cambio sorgente, tablet e telefono) e ispezione di catture native in Microsoft Excel. Dettagli nella prima sezione di [FINAL_QA_REPORT.md](FINAL_QA_REPORT.md). L'automazione non sostituisce le prove qui sotto; usare l'interfaccia attuale.
 
-## Ispezione grafica del report in Excel o LibreOffice (non ancora eseguita)
+## Ispezione grafica del report in Excel o LibreOffice
+
+**Aggiornamento 8 novembre 2026:** l'agente ha ispezionato catture reali dei quattro fogli in Excel 16.0 e dei testi simili a formule: [evidenze](../demo/screenshots-excel/README.md). Il nuovo ambiente virtuale sullo stesso PC supera 50 test e l'avvio locale. Queste prove non costituiscono accettazione umana né installazione su un altro Windows. Le caselle qui sotto restano riservate alla verifica dell'utente.
 
 File: [demo/qa_report.xlsx](../demo/qa_report.xlsx), scaricato dal browser nell'ultima verifica. Aprirlo in Excel o LibreOffice senza abilitare contenuti o macro.
 
@@ -28,7 +30,7 @@ File: [demo/qa_report.xlsx](../demo/qa_report.xlsx), scaricato dal browser nell'
 - [ ] Provare demo/08_malformed.csv e 09_empty.csv: errore comprensibile, nessun export residuo.
 - [ ] Provare upload xlsx multi-foglio, CSV CP1252, celle vuote, intestazioni ripetute e dataset rappresentativo sintetico vicino ai limiti; annotare tempi e memoria sul PC usato.
 - [ ] Browser largo e stretto: leggibilità, focus tastiera, nomi lunghi, tabelle e controlli. I controlli Streamlit possono richiedere scorrimento orizzontale su schermi piccoli.
-- [ ] Riavvio app e chiusura browser: nessun file caricato creato nella directory del progetto; download gestiti dall'utente.
+- [ ] Riavvio app e chiusura browser: originali non salvati nella directory del progetto; download gestiti dall'utente. Verificare i temporanei locali dell'export XLSX; la rimozione dopo crash non è garantita e non costituisce cancellazione forense.
 
 Registrare data, versioni, PC, browser, programma Excel, risultati e difetti. Per ogni incarico concordare schema, locale, date, criteri duplicati e output atteso; verificare il risultato con il cliente prima della consegna. Non utilizzare dati di clienti nel portfolio.
 
