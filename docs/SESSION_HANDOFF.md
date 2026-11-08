@@ -1,5 +1,13 @@
 # Punto di ripresa — 8 novembre 2026
 
+## Pubblicazione GitHub: stato corrente
+
+L'utente ha richiesto la pubblicazione del progetto e scelto esplicitamente la visibilità **pubblica**. Repository creato e caricato: [GaetanoGennusa/excel-cleaner-pro](https://github.com/GaetanoGennusa/excel-cleaner-pro), `main`, remoto `origin` configurato con tracking. [Procedura e stato](GITHUB_PUBLICATION.md). Nessuna riscrittura della cronologia o modifica dell'identità autore globale; nessuna licenza aggiunta automaticamente. Git Credential Manager autenticato nell'account indicato; non richiedere credenziali nella chat.
+
+L'utente ha visto la pagina portfolio locale e la ritiene visivamente corretta. Restano distinte le prove manuali dell'app e del report, il secondo Windows e i requisiti di un eventuale cliente. La pubblicazione riguarda il repository, non hosting dell'app o GitHub Pages. Le note precedenti che riportano assenza di autorizzazione alla pubblicazione descrivono lo stato storico antecedente alla richiesta GitHub; non rappresentano un blocco per questa pubblicazione già richiesta.
+
+README aggiornato con screenshot reale, collegamento inglese e distinzione tra sorgenti GitHub e demo locale. Nessuna modifica al codice applicativo in questa fase; restano i 54 test e le evidenze già eseguite.
+
 ## Catalogo prodotti: ultima consegna
 
 Demo da 200 righe sintetiche in `demo/product_catalog/`. Aprire `index.html` con doppio clic: pagina portfolio con confronto interattivo, download reali e video muto di 38 secondi. Generatore `scripts/generate_catalog_demo.py`; controllo e registrazione `scripts/catalog_browser_qa.py` / `.cjs`. Il motore e l'app sono invariati. `scripts/browser_qa.cjs` espone i propri helper e avvia il flusso generale solo quando eseguito direttamente.

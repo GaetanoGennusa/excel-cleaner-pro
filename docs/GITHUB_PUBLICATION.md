@@ -2,6 +2,14 @@
 
 Richiesta dell'utente: repository **pubblico**, nome `excel-cleaner-pro`, per il portfolio. La pubblicazione del codice è distinta dall'hosting dell'applicazione o della pagina demo. Nessuna licenza open source viene aggiunta automaticamente: la scelta della licenza resta separata.
 
+## Pubblicazione completata — 8 novembre 2026
+
+Repository: **[GaetanoGennusa/excel-cleaner-pro](https://github.com/GaetanoGennusa/excel-cleaner-pro)**, visibilità pubblica, branch `main`. Accesso tramite Git Credential Manager e creazione mediante API ufficiale GitHub, senza installazioni globali o credenziali nei file. Caricamento con Git e confronto dell'hash locale con `refs/heads/main` remoto riusciti.
+
+L'origine locale è `https://github.com/GaetanoGennusa/excel-cleaner-pro.git`; `main` segue `origin/main`. Per caricare nuovi commit basta `git push`. I passaggi di prima creazione qui sotto sono conservati come riferimento: non creare un altro repository o aggiungere nuovamente `origin`.
+
+Non è stato attivato GitHub Pages né pubblicata l'applicazione Streamlit su un server. La demo interattiva HTML si apre dopo aver scaricato o clonato il progetto. Il riscontro dell'utente sulla demo locale è stato positivo per la verifica visiva; non costituisce accettazione di tutti i controlli manuali o di un dataset cliente.
+
 ## Preparazione locale
 
 - Codice, test, documentazione e dati sintetici sono versionati.
