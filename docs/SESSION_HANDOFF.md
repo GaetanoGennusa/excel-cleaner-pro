@@ -1,5 +1,15 @@
 # Punto di ripresa — 8 novembre 2026
 
+## Catalogo prodotti: ultima consegna
+
+Demo da 200 righe sintetiche in `demo/product_catalog/`. Aprire `index.html` con doppio clic: pagina portfolio con confronto interattivo, download reali e video muto di 38 secondi. Generatore `scripts/generate_catalog_demo.py`; controllo e registrazione `scripts/catalog_browser_qa.py` / `.cjs`. Il motore e l'app sono invariati. `scripts/browser_qa.cjs` espone i propri helper e avvia il flusso generale solo quando eseguito direttamente.
+
+Risultati: 54 test superati; 4 passaggi catalogo + 5 portfolio, tutti superati; i 31 passaggi generali rieseguiti e superati. Il report browser del catalogo è stato aperto in Excel e i quattro fogli ispezionati tramite catture native. [QA e limiti](CATALOG_DEMO_QA.md), [guida demo](../demo/product_catalog/README.md).
+
+Attenzione ai conteggi: 200 righe iniziali, 190 SKU distinti, 6 copie eliminate, 194 righe finali; quattro coppie simili restano. Le 112 Issues includono segnalazioni della sorgente già risolte. Non interpretarle come 112 errori finali. Non deduplicare nuovamente un output ricaricato senza una decisione: le coppie normalizzate diventano esatte nella nuova sorgente.
+
+Prossimo passo: l'utente esplora la pagina e prova il catalogo nell'app. Restano accettazione manuale, altro Windows e definizione dei requisiti prima di incarichi. Nessuna pubblicazione autorizzata o eseguita. Usare `git log -1` e `git status` per verificare il salvataggio corrente.
+
 ## Stato più recente
 
 Sul commit `8bcd956`, completata una nuova verifica autonoma. Modifiche: regole testuali in colonne di pari larghezza; Metadata esportato con testo a capo; script ripetibili `scripts/benchmark.py` e `scripts/excel_visual_qa.ps1`. Report e screenshot sintetici aggiornati. Consultare lo stato Git per le modifiche successive al commit; non assumere che siano già committate.

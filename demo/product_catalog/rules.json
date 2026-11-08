@@ -1,0 +1,17 @@
+{
+  "trim": true,
+  "headers": false,
+  "case_columns": {
+    "nome": "title",
+    "categoria": "title"
+  },
+  "number_columns": {
+    "prezzo_eur": "it",
+    "disponibilita": "it"
+  },
+  "date_columns": {
+    "aggiornato_il": "%d/%m/%Y"
+  },
+  "drop_duplicates": true,
+  "confirm_duplicates": true
+}

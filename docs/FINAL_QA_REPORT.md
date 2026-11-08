@@ -1,6 +1,10 @@
 # Excel Cleaner Pro — revisione finale
 
-## Versione attuale — verifica dell'8 novembre 2026
+## Ultima estensione — catalogo prodotti, 8 novembre 2026
+
+Creata la demo sintetica da 200 righe con pagina portfolio locale, confronto interattivo, report, video muto reale di 38 secondi e materiale inglese. **54 test Python superati**, **4 passaggi app + 5 passaggi portfolio superati**, **31 passaggi browser generali ripetuti e superati**. Nessuna modifica al motore o alle regole dell'app. Funzioni del driver browser rese importabili per riutilizzarle nel nuovo controllo. Dettagli, provenienza degli artefatti, ispezione nativa Excel e limiti in [CATALOG_DEMO_QA.md](CATALOG_DEMO_QA.md).
+
+## Verifica tecnica di base — 8 novembre 2026
 
 Proseguimento sul commit `8bcd956`. Due modifiche circoscritte: colonne delle regole testuali di pari larghezza, per evitare la parola spezzata su tablet; testo a capo e altezze adattate nel foglio Metadata. Nessuna modifica alle conversioni o ai criteri di eliminazione.
 

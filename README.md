@@ -2,6 +2,8 @@
 
 Applicazione locale per pulire e controllare Excel e CSV con regole esplicite, anteprima e tracciabilità. Prototipo da portfolio con test automatici: prima di usarlo per incarichi commerciali occorre completare la verifica manuale descritta in `docs/MANUAL_QA.md`. Nessuna promessa di accuratezza universale o certificazione contabile.
 
+**Nuova demo catalogo prodotti:** apri [la pagina portfolio locale](demo/product_catalog/index.html) con un doppio clic. Include 200 righe sintetiche, confronto interattivo, file prima/dopo, report e un video reale muto di 38 secondi. La [guida](demo/product_catalog/README.md) permette di ripetere le stesse scelte nell'app. Verifica della demo: 54 test Python, 4 passaggi app e 5 passaggi portfolio, oltre ai 31 passaggi browser generali; [evidenze](docs/CATALOG_DEMO_QA.md).
+
 ## Requisiti e installazione Windows
 
 L'interfaccia attuale è scura, con accento smeraldo, schede, barra delle fasi e navigazione laterale; si adatta a tablet e telefono. Richiede Streamlit 1.66+ (già indicato in `requirements.txt`). Usa solo caratteri e risorse locali. Verifica dell'8 novembre 2026: 50 test automatici, 31 passaggi browser, installazione offline in un ambiente virtuale nuovo sullo stesso PC e [ispezione delle catture native in Excel](demo/screenshots-excel/README.md). Dettagli e limiti nel [rapporto QA finale](docs/FINAL_QA_REPORT.md). L'accettazione manuale dell'utente e la prova su un altro Windows restano da completare.

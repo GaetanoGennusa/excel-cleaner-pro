@@ -1,0 +1,10 @@
+{
+  "downloaded_rows": 194,
+  "duplicates_removed": 6,
+  "modified_source_rows": 200,
+  "all_values_match_engine": true,
+  "configuration_matches_ui_choices": true,
+  "leading_zero_identifiers_are_text": true,
+  "no_formula_cells": true,
+  "downloaded_csv_matches_delivered_csv": true
+}

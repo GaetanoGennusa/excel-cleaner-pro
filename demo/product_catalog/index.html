@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Demo sintetica di pulizia di un catalogo prodotti: prima, dopo e report delle modifiche con Excel Cleaner Pro.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; media-src 'self'; connect-src 'none'; base-uri 'none'; object-src 'none'">
+  <title>Un catalogo, ogni modifica visibile — Excel Cleaner Pro</title>
+  <style>
+    :root { color-scheme: dark; --bg:#0b100f; --panel:#111a17; --line:#293b33; --text:#e9f0ec; --muted:#a4b7ac; --green:#58dfad; --amber:#f2c786; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; scroll-padding-top:2rem; }
+    body { margin:0; background:var(--bg); color:var(--text); font:16px/1.65 "Segoe UI",system-ui,sans-serif; }
+    a { color:var(--green); text-underline-offset:4px; }
+    a:focus-visible, button:focus-visible, input:focus-visible { outline:3px solid var(--amber); outline-offset:5px; }
+    .wrap { width:min(1180px,calc(100% - 64px)); margin:auto; }
+    .skip { position:absolute; top:-100px; left:16px; padding:12px; background:var(--panel); z-index:2; }
+    .skip:focus { top:12px; }
+    header { border-bottom:1px solid var(--line); }
+    .nav { display:flex; align-items:center; justify-content:space-between; gap:24px; padding:24px 0; }
+    .brand { display:flex; align-items:center; gap:12px; color:var(--text); text-decoration:none; font-weight:650; }
+    .mark { width:36px; height:36px; display:grid; place-items:center; background:var(--green); border-radius:9px; color:#0b2117; font-size:13px; }
+    .nav-links { display:flex; flex-wrap:wrap; gap:24px; font-size:14px; }
+    .nav-links a { color:var(--muted); text-decoration:none; }
+    .nav-links a:hover { color:var(--green); }
+    .eyebrow { color:var(--green); text-transform:uppercase; letter-spacing:.12em; font-size:12px; font-weight:700; }
+    .hero { padding:76px 0 56px; display:grid; grid-template-columns:1.2fr 1fr; gap:64px; align-items:center; }
+    h1,h2,h3,p { margin-top:0; }
+    h1 { font-size:clamp(38px,4.4vw,62px); line-height:1.08; letter-spacing:-.055em; font-weight:650; margin:18px 0 24px; }
+    h1 em { font-style:normal; color:var(--green); }
+    .lede { font-size:19px; color:var(--muted); max-width:580px; }
+    .actions { display:flex; flex-wrap:wrap; gap:12px; margin:30px 0 20px; }
+    .button { display:inline-flex; align-items:center; justify-content:center; padding:12px 18px; border-radius:8px; background:var(--green); color:#092317; text-decoration:none; font-weight:650; border:1px solid var(--green); }
+    .button.secondary { color:var(--text); background:transparent; border-color:var(--line); }
+    .small { font-size:13px; color:var(--muted); }
+    .example { border:1px solid var(--line); border-radius:16px; overflow:hidden; background:var(--panel); box-shadow:0 24px 70px #0003; }
+    .example-head { padding:16px 22px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; gap:16px; font-size:12px; color:var(--muted); }
+    .example-body { padding:22px; }
+    .example-sku { font-family:Consolas,monospace; color:var(--green); font-size:12px; }
+    .example h3 { font-size:23px; margin:8px 0 18px; font-weight:550; }
+    .comparison { display:grid; grid-template-columns:1fr 24px 1fr; gap:10px; padding:13px 0; border-top:1px solid var(--line); font:15px/1.4 Consolas,monospace; }
+    .comparison .old { color:var(--muted); }
+    .comparison .new { color:var(--green); }
+    .comparison .arrow { color:#71867a; }
+    .example-foot { padding:12px 22px; border-top:1px solid var(--line); font-size:12px; color:var(--muted); }
+    .metrics { display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+    .metric { padding:24px 20px; border-right:1px solid var(--line); }
+    .metric:first-child { padding-left:0; } .metric:last-child { border-right:0; }
+    .metric strong { display:block; font-size:38px; letter-spacing:-.045em; line-height:1.1; font-weight:600; margin-bottom:8px; }
+    .metric span { color:var(--muted); font-size:13px; }
+    .section { padding:72px 0; border-bottom:1px solid var(--line); }
+    h2 { font-size:clamp(27px,3vw,38px); line-height:1.2; letter-spacing:-.035em; font-weight:600; margin:12px 0 16px; }
+    .section-heading { max-width:760px; margin-bottom:28px; }
+    .section-heading p { color:var(--muted); }
+    .toolbar { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:16px; margin-bottom:16px; }
+    fieldset { border:0; padding:0; margin:0; display:flex; gap:4px; flex-wrap:wrap; }
+    legend { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
+    .tab { display:block; position:relative; }
+    .tab input { position:absolute; opacity:0; width:100%; height:100%; margin:0; cursor:pointer; }
+    .tab span { display:block; padding:9px 16px; border:1px solid var(--line); border-radius:7px; color:var(--muted); font-size:14px; }
+    .tab input:checked + span { color:#092317; border-color:var(--green); background:var(--green); font-weight:650; }
+    .tab input:focus-visible + span { outline:3px solid var(--amber); outline-offset:3px; }
+    .table-scroll { width:100%; overflow-x:auto; border:1px solid var(--line); border-radius:12px; background:var(--panel); }
+    table { width:100%; border-collapse:collapse; text-align:left; font-size:13px; }
+    th { background:#18261f; color:#c8d7ce; font-size:11px; letter-spacing:.05em; text-transform:uppercase; font-weight:600; }
+    th,td { padding:15px 16px; border-bottom:1px solid var(--line); vertical-align:top; }
+    tbody tr:last-child td { border-bottom:0; }
+    td { max-width:300px; white-space:pre-wrap; overflow-wrap:break-word; }
+    td:first-child { color:var(--green); font-family:Consolas,monospace; white-space:nowrap; }
+    .empty { color:var(--amber); font-style:italic; }
+    .table-note { margin:14px 0 0; font-size:13px; color:var(--muted); }
+    .split { display:grid; grid-template-columns:1fr 1fr; gap:64px; }
+    .rules { list-style:none; padding:0; margin:0; counter-reset:rule; }
+    .rules li { counter-increment:rule; position:relative; padding:18px 0 18px 45px; border-top:1px solid var(--line); }
+    .rules li::before { content:"0" counter(rule); position:absolute; left:0; color:var(--green); font:12px/1.8 Consolas,monospace; }
+    .rules strong { display:block; font-weight:600; }
+    .rules p { color:var(--muted); font-size:14px; margin:5px 0 0; }
+    .review { border:1px solid #5a4931; border-radius:12px; padding:26px; background:#211d15; }
+    .review .eyebrow { color:var(--amber); }
+    .review h3 { font-size:23px; margin:12px 0 16px; font-weight:550; }
+    .review p,.review li { color:#d1c7b6; font-size:14px; }
+    .review ul { padding-left:20px; }
+    .downloads { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+    .download { display:flex; flex-direction:column; padding:25px; border:1px solid var(--line); border-radius:12px; background:var(--panel); }
+    .format { color:var(--green); font:12px Consolas,monospace; margin-bottom:24px; }
+    .download h3 { font-size:20px; margin-bottom:9px; }
+    .download p { color:var(--muted); font-size:14px; flex-grow:1; }
+    .download a { align-self:flex-start; font-size:14px; font-weight:600; }
+    .service { padding:28px; border-left:2px solid var(--green); background:var(--panel); }
+    .service p { margin-bottom:12px; color:var(--muted); }
+    .service p:last-child { margin-bottom:0; }
+    video { width:100%; display:block; border:1px solid var(--line); border-radius:12px; background:#000; }
+    footer { padding:32px 0 44px; color:var(--muted); font-size:12px; }
+    footer .wrap { display:flex; justify-content:space-between; gap:24px; flex-wrap:wrap; }
+    @media(max-width:850px) {
+      .hero,.split { grid-template-columns:1fr; gap:32px; } .hero { padding-top:44px; }
+      .hero .example { max-width:600px; } .downloads { grid-template-columns:1fr; }
+      .download .format { margin-bottom:12px; } .section { padding:48px 0; }
+    }
+    @media(max-width:540px) {
+      .wrap { width:calc(100% - 36px); } .nav { align-items:flex-start; gap:16px; }
+      .nav-links { gap:12px; font-size:12px; } .nav-links a:first-child { display:none; }
+      .brand { font-size:13px; gap:8px; } .mark { width:30px; height:30px; font-size:11px; flex-shrink:0; }
+      h1 { font-size:41px; } .lede { font-size:17px; }
+      .metrics { grid-template-columns:1fr 1fr; } .metric { padding:18px 12px; }
+      .metric:first-child { padding-left:12px; } .metric:nth-child(2) { border-right:0; }
+      .metric:nth-child(-n+2) { border-bottom:1px solid var(--line); } .metric strong { font-size:32px; }
+      .comparison { font-size:12px; grid-template-columns:1fr 16px 1fr; } .example-body { padding:18px; }
+      .toolbar { align-items:flex-start; } .review { padding:22px; }
+    }
+    @media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } }
+    @media print { body { background:white; color:black; } header,.actions,video { display:none; } .wrap { width:100%; } .section { break-inside:avoid; } }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Vai al contenuto</a>
+  <header><div class="wrap nav">
+    <a class="brand" href="#main"><span class="mark" aria-hidden="true">EC</span>Excel Cleaner Pro</a>
+    <nav class="nav-links" aria-label="Navigazione"><a href="#confronto">Il risultato</a><a href="#metodo">Il metodo</a><a href="#files">File della demo</a></nav>
+  </div></header>
+  <main id="main" class="wrap">
+    <section class="hero">
+      <div>
+        <span class="eyebrow">Portfolio / cataloghi prodotti</span>
+        <h1>Un catalogo più ordinato.<br><em>Ogni scelta visibile.</em></h1>
+        <p class="lede">Codici da proteggere, prezzi da uniformare, righe duplicate. Un esempio concreto di pulizia con regole concordate e un report da controllare.</p>
+        <div class="actions"><a class="button" href="#confronto">Esplora prima e dopo</a><a class="button secondary" href="catalogo_report.xlsx" download>Scarica il report Excel</a></div>
+        <p class="small">Dimostrazione con dati interamente sintetici. Nessun cliente o risultato economico rappresentato.</p>
+      </div>
+      <div class="example" aria-label="Esempio reale del prodotto sintetico 000001">
+        <div class="example-head"><span>Un record, tre decisioni</span><span>SKU 000001</span></div>
+        <div class="example-body">
+          <span class="example-sku">CODICE CONSERVATO · 000001</span>
+          <h3>Tazza Aurora Modello 001</h3>
+          <div class="comparison"><span class="old">€ 1.234,56</span><span class="arrow" aria-hidden="true">→</span><span class="new">1234.56</span></div>
+          <div class="comparison"><span class="old">01/02/2026</span><span class="arrow" aria-hidden="true">→</span><span class="new">2026-02-01</span></div>
+          <div class="comparison"><span class="old">000001</span><span class="arrow" aria-hidden="true">→</span><span class="new">000001</span></div>
+        </div><div class="example-foot">Formato italiano e giorno/mese/anno scelti esplicitamente.</div>
+      </div>
+    </section>
+    <div class="metrics" aria-label="Risultati verificati della demo">
+      <div class="metric"><strong>200</strong><span>righe nel file originale</span></div>
+      <div class="metric"><strong>6</strong><span>copie esatte rimosse</span></div>
+      <div class="metric"><strong>194</strong><span>righe nel risultato</span></div>
+      <div class="metric"><strong>4</strong><span>gruppi simili conservati</span></div>
+    </div>
+    <section id="confronto" class="section">
+      <div class="section-heading"><span class="eyebrow">Dentro i dati</span><h2>Le modifiche si possono confrontare.</h2>
+        <p>Il catalogo contiene 190 SKU distinti. Qui trovi dieci record selezionati, non l'intero file. Il report scaricabile contiene tutti i dati, le anomalie e il log completo.</p></div>
+      <div class="toolbar"><fieldset><legend>Vista dei dati</legend>
+        <label class="tab"><input type="radio" name="view" value="before" checked><span>Prima</span></label>
+        <label class="tab"><input type="radio" name="view" value="after"><span>Dopo</span></label>
+        <label class="tab"><input type="radio" name="view" value="issues"><span>Valori da verificare</span></label>
+      </fieldset><span class="small" id="view-description" aria-live="polite"></span></div>
+      <div class="table-scroll" role="region" aria-label="Esempi di dati del catalogo" tabindex="0"><table><caption class="small" id="table-caption">Esempi del catalogo sintetico</caption><thead id="data-head"></thead><tbody id="data-body"></tbody></table></div>
+      <p class="table-note">I valori vuoti restano vuoti. La data impossibile e i prezzi non interpretabili vengono conservati, senza inventare correzioni.</p>
+      <noscript><p>Attiva JavaScript per confrontare gli esempi. I tre file scaricabili restano disponibili senza JavaScript.</p></noscript>
+    </section>
+    <section id="metodo" class="section split">
+      <div><span class="eyebrow">Le regole di questa demo</span><h2>Pulizia esplicita.<br>Decisioni documentate.</h2>
+        <ol class="rules">
+          <li><strong>Testi e categorie uniformati</strong><p>Spazi esterni rimossi, spazi ripetuti compressi, nome e categoria in formato titolo. Codici esclusi dalle conversioni numeriche.</p></li>
+          <li><strong>Prezzi, quantità e date convertiti</strong><p>Formato numerico italiano per prezzo e disponibilità; giorno/mese/anno per le date. Il formato delle date non viene indovinato.</p></li>
+          <li><strong>Soltanto copie esatte eliminate</strong><p>Sei righe identiche nella sorgente, rimosse dopo conferma. La normalizzazione non autorizza altre cancellazioni.</p></li>
+          <li><strong>Consegna con traccia delle operazioni</strong><p>Dati, anomalie, registro per cella e configurazione in quattro fogli Excel. Le righe del log fanno riferimento alla sorgente.</p></li>
+        </ol>
+      </div>
+      <aside class="review"><span class="eyebrow">Serve una decisione</span><h3>Un file più ordinato conserva anche i dubbi.</h3>
+        <p>Il risultato contiene ancora valori da discutere con chi conosce il catalogo:</p>
+        <ul><li>Tre prezzi non interpretabili, una disponibilità testuale e due date non valide.</li>
+          <li>Sette celle vuote, senza riempimento automatico.</li>
+          <li>Quattro coppie con lo stesso SKU: differiscono nella sorgente per spazi o maiuscole. Dopo la pulizia risultano uguali, ma restano entrambe.</li></ul>
+        <p>Lo SKU ripetuto è qui una domanda da porre al referente. L'app non certifica l'unicità commerciale di un prodotto né decide quale variante tenere.</p>
+        <p class="small">Issues comprende anche segnalazioni sulla sorgente, come date inizialmente ambigue poi normalizzate. Non equivale al conteggio dei soli problemi irrisolti.</p>
+      </aside>
+    </section>
+    <section id="files" class="section"><div class="section-heading"><span class="eyebrow">File verificabili</span><h2>Scarica e controlla il lavoro.</h2><p>Originale, risultato e report sono generati dal motore Python del progetto. Nessun dato reale o servizio esterno.</p></div>
+      <div class="downloads">
+        <article class="download"><span class="format">01 / CSV ORIGINALE</span><h3>Il punto di partenza</h3><p>200 righe, 8 colonne. Spazi, formati italiani, copie e valori volutamente incompleti.</p><a href="catalogo_originale.csv" download>Scarica l'originale</a></article>
+        <article class="download"><span class="format">02 / CSV PULITO</span><h3>Il risultato tabellare</h3><p>194 righe. UTF-8 con BOM, separatore punto e virgola. I codici vanno importati come testo.</p><a href="catalogo_pulito.csv" download>Scarica il risultato</a></article>
+        <article class="download"><span class="format">03 / REPORT XLSX</span><h3>La traccia completa</h3><p>Cleaned_Data, Issues, Change_Log e Metadata. Preferibile al CSV per conservare i tipi e gli zeri iniziali.</p><a href="catalogo_report.xlsx" download>Scarica il report completo</a></article>
+      </div>
+      <p class="table-note">Aprendo direttamente un CSV, Excel può reinterpretare codici e date. Per questa prova usa il report XLSX o l'importazione guidata delle colonne.</p>
+    </section>
+    <section class="section" id="video"><div class="section-heading"><span class="eyebrow">Flusso reale</span><h2>Guarda la dimostrazione.</h2><p>Registrazione automatica del browser, senza audio, tagli o accelerazioni. Solo dati sintetici.</p></div><video controls preload="none" poster="screenshots/preview.png" src="demo_catalogo.webm">Scarica il <a href="demo_catalogo.webm">video WebM</a>.</video></section>
+    <section class="section split"><div><span class="eyebrow">Ambito del servizio proposto</span><h2>Un file, requisiti chiari,<br>una consegna controllabile.</h2></div>
+      <div class="service"><p>Un CSV o Excel, un foglio, fino a 1.000 righe e 20 colonne. Regole concordate prima del lavoro, risultato e report, una revisione limitata ai requisiti iniziali.</p>
+        <p>Il servizio proposto riguarda pulizia e uniformazione. Importazione in negozi online, correzione dei prezzi, verifica fiscale, unione di file e gestione di varianti richiedono attività separate.</p>
+        <p>Questa pagina presenta una demo da portfolio. L'accettazione manuale e la verifica del singolo file restano necessarie prima di una consegna commerciale.</p>
+        <a href="SERVICE_EN.md">Leggi la descrizione del servizio in inglese</a>
+      </div>
+    </section>
+  </main>
+  <footer><div class="wrap"><span>Excel Cleaner Pro · Caso dimostrativo sintetico</span><span>Elaborazione locale. L'export XLSX usa temporanei locali; possibili residui dopo un crash.</span></div></footer>
+  <script id="demo-data" type="application/json">{"synthetic": true, "scenario": "Catalogo prodotti dimostrativo", "input_rows": 200, "output_rows": 194, "columns": 8, "distinct_skus": 190, "exact_duplicates_removed": 6, "source_possible_duplicate_rows": 8, "similar_sku_groups_kept": 4, "similar_skus": ["000010", "000050", "000090", "000130"], "missing_input_cells": 7, "missing_output_cells": 7, "modified_source_rows_including_removed": 200, "change_events": 1392, "issue_events": 112, "configuration": {"trim": true, "headers": false, "case_columns": {"nome": "title", "categoria": "title"}, "number_columns": {"prezzo_eur": "it", "disponibilita": "it"}, "date_columns": {"aggiornato_il": "%d/%m/%Y"}, "drop_duplicates": true, "confirm_duplicates": true}, "integrity": {"row_accounting": true, "column_count_preserved": true, "unique_headers": true, "deletion_authorized": true, "source_order_preserved": true, "missing_values_preserved": true}, "input_sha256": "21551b7ac16c66b64c38068d3f141d958c4302d229b6bb092c705c5787336479", "snapshots": {"before": [{"sku": "000001", "nome": "  TAZZA  AURORA  MODELLO  001  ", "categoria": " CUCINA ", "prezzo_eur": "€ 1.234,56", "disponibilita": "1", "aggiornato_il": "01/02/2026", "codice_fornitore": "00101", "note": "Record sintetico"}, {"sku": "000010", "nome": "  quaderno  orizzonte  modello  010  ", "categoria": " CARTOLERIA ", "prezzo_eur": "26,60", "disponibilita": "10", "aggiornato_il": "10/02/2026", "codice_fornitore": "00101", "note": "Record sintetico"}, {"sku": "000018", "nome": "  quaderno  orizzonte  modello  018  ", "categoria": " cartoleria ", "prezzo_eur": "da verificare", "disponibilita": "18", "aggiornato_il": "18/02/2026", "codice_fornitore": "00100", "note": "Record sintetico"}, {"sku": "000033", "nome": "  TAZZA  AURORA  MODELLO  033  ", "categoria": " cucina ", "prezzo_eur": null, "disponibilita": "2", "aggiornato_il": "05/02/2026", "codice_fornitore": "00106", "note": "Record sintetico"}, {"sku": "000045", "nome": "  CANDELA  RIVA  MODELLO  045  ", "categoria": " casa ", "prezzo_eur": "74,55", "disponibilita": "14", "aggiornato_il": "31/02/2026", "codice_fornitore": "00100", "note": "Record sintetico"}, {"sku": "000062", "nome": "  portapenne  arco  modello  062  ", "categoria": " CARTOLERIA ", "prezzo_eur": "97,84", "disponibilita": "in arrivo", "aggiornato_il": "06/02/2026", "codice_fornitore": "00108", "note": "Record sintetico"}, {"sku": "000088", "nome": "  ciotola  brina  modello  088  ", "categoria": " CUCINA ", "prezzo_eur": "12,3,4", "disponibilita": "26", "aggiornato_il": "04/02/2026", "codice_fornitore": "00107", "note": "Record sintetico"}, {"sku": "000095", "nome": "  BORRACCIA  SENTIERO  MODELLO  095  ", "categoria": " TEMPO LIBERO ", "prezzo_eur": "143,05", "disponibilita": "2", "aggiornato_il": null, "codice_fornitore": "00105", "note": "Record sintetico"}, {"sku": "000148", "nome": "  borsa  vela  modello  148  ", "categoria": " ACCESSORI ", "prezzo_eur": "N/D", "disponibilita": "24", "aggiornato_il": "08/02/2026", "codice_fornitore": "00104", "note": "Record sintetico"}, {"sku": "000175", "nome": "  BORRACCIA  SENTIERO  MODELLO  175  ", "categoria": " TEMPO LIBERO ", "prezzo_eur": "252,65", "disponibilita": "20", "aggiornato_il": "07/02/2026", "codice_fornitore": "00104", "note": null}], "after": [{"sku": "000001", "nome": "Tazza Aurora Modello 001", "categoria": "Cucina", "prezzo_eur": 1234.56, "disponibilita": 1, "aggiornato_il": "2026-02-01", "codice_fornitore": "00101", "note": "Record sintetico"}, {"sku": "000010", "nome": "Quaderno Orizzonte Modello 010", "categoria": "Cartoleria", "prezzo_eur": 26.6, "disponibilita": 10, "aggiornato_il": "2026-02-10", "codice_fornitore": "00101", "note": "Record sintetico"}, {"sku": "000018", "nome": "Quaderno Orizzonte Modello 018", "categoria": "Cartoleria", "prezzo_eur": "da verificare", "disponibilita": 18, "aggiornato_il": "2026-02-18", "codice_fornitore": "00100", "note": "Record sintetico"}, {"sku": "000033", "nome": "Tazza Aurora Modello 033", "categoria": "Cucina", "prezzo_eur": null, "disponibilita": 2, "aggiornato_il": "2026-02-05", "codice_fornitore": "00106", "note": "Record sintetico"}, {"sku": "000045", "nome": "Candela Riva Modello 045", "categoria": "Casa", "prezzo_eur": 74.55, "disponibilita": 14, "aggiornato_il": "31/02/2026", "codice_fornitore": "00100", "note": "Record sintetico"}, {"sku": "000062", "nome": "Portapenne Arco Modello 062", "categoria": "Cartoleria", "prezzo_eur": 97.84, "disponibilita": "in arrivo", "aggiornato_il": "2026-02-06", "codice_fornitore": "00108", "note": "Record sintetico"}, {"sku": "000088", "nome": "Ciotola Brina Modello 088", "categoria": "Cucina", "prezzo_eur": "12,3,4", "disponibilita": 26, "aggiornato_il": "2026-02-04", "codice_fornitore": "00107", "note": "Record sintetico"}, {"sku": "000095", "nome": "Borraccia Sentiero Modello 095", "categoria": "Tempo Libero", "prezzo_eur": 143.05, "disponibilita": 2, "aggiornato_il": null, "codice_fornitore": "00105", "note": "Record sintetico"}, {"sku": "000148", "nome": "Borsa Vela Modello 148", "categoria": "Accessori", "prezzo_eur": "N/D", "disponibilita": 24, "aggiornato_il": "2026-02-08", "codice_fornitore": "00104", "note": "Record sintetico"}, {"sku": "000175", "nome": "Borraccia Sentiero Modello 175", "categoria": "Tempo Libero", "prezzo_eur": 252.65, "disponibilita": 20, "aggiornato_il": "2026-02-07", "codice_fornitore": "00104", "note": null}]}, "review_examples": [{"sku": "000018", "column": "prezzo_eur", "value": "da verificare", "issue": "Numero non valido per il formato selezionato"}, {"sku": "000088", "column": "prezzo_eur", "value": "12,3,4", "issue": "Numero non valido per il formato selezionato"}, {"sku": "000148", "column": "prezzo_eur", "value": "N/D", "issue": "Numero non valido per il formato selezionato"}, {"sku": "000062", "column": "disponibilita", "value": "in arrivo", "issue": "Numero non valido per il formato selezionato"}, {"sku": "000045", "column": "aggiornato_il", "value": "31/02/2026", "issue": "day is out of range for month"}, {"sku": "000145", "column": "aggiornato_il", "value": "data da confermare", "issue": "time data 'data da confermare' does not match format '%d/%m/%Y'"}]}</script>
+  <script>
+    'use strict';
+    const data = JSON.parse(document.getElementById('demo-data').textContent);
+    const columns = ['sku','nome','categoria','prezzo_eur','disponibilita','aggiornato_il'];
+    const labels = ['SKU','Nome prodotto','Categoria','Prezzo EUR','Disponibilità','Aggiornato il'];
+    function render(mode) {
+      const issues = mode === 'issues';
+      const keys = issues ? ['sku','column','value','issue'] : columns;
+      const titles = issues ? ['SKU','Colonna','Valore conservato','Segnalazione del motore'] : labels;
+      const rows = issues ? data.review_examples : data.snapshots[mode];
+      const head = document.getElementById('data-head');
+      const body = document.getElementById('data-body');
+      head.replaceChildren(); body.replaceChildren();
+      const tr = document.createElement('tr');
+      titles.forEach(title => { const th = document.createElement('th'); th.scope='col'; th.textContent=title; tr.append(th); });
+      head.append(tr);
+      rows.forEach(row => {
+        const record = document.createElement('tr');
+        keys.forEach(key => {
+          const cell=document.createElement('td');
+          cell.textContent=row[key] === null ? 'vuoto' : String(row[key]);
+          if (row[key] === null) cell.className='empty';
+          record.append(cell);
+        });
+        body.append(record);
+      });
+      document.getElementById('view-description').textContent=issues ? '6 conversioni non riuscite, valori conservati' : '10 record selezionati · 6 delle 8 colonne';
+      document.getElementById('table-caption').textContent=issues ? 'Esempi di valori conservati da verificare' : (mode==='before' ? 'Prima: valori originali' : 'Dopo: regole applicate');
+    }
+    document.querySelectorAll('input[name="view"]').forEach(input => input.addEventListener('change', () => render(input.value)));
+    render('before');
+  </script>
+</body>
+</html>

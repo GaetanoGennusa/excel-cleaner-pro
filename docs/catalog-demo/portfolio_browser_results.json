@@ -1,0 +1,12 @@
+{
+  "timestamp": "2026-11-08T15:13:08.276Z",
+  "checks": [
+    "portfolio:desktop_and_comparison",
+    "portfolio:keyboard_and_downloads",
+    "portfolio:recorded_video_plays",
+    "portfolio:mobile",
+    "portfolio:double_click_without_server"
+  ],
+  "pageErrors": [],
+  "externalOrigins": []
+}

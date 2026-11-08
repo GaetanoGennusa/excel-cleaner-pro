@@ -4,6 +4,8 @@ L'interfaccia attuale (tema scuro) è documentata nelle [schermate reali](screen
 
 Tutti i dati di questa cartella sono inventati. Non rappresentano clienti, persone o transazioni reali.
 
+La demo principale per il portfolio è ora il [catalogo prodotti](product_catalog/README.md): 200 righe sintetiche, pagina HTML locale, report, confronto e video autentico. [Apri la pagina](product_catalog/index.html). Il relativo generatore è separato: `.\.venv\Scripts\python.exe -m scripts.generate_catalog_demo`. I file numerati qui sotto restano casi minimi utili per prove mirate.
+
 Rigenera i file dalla radice del progetto con `.\.venv\Scripts\python.exe -m scripts.generate_demo`.
 
 | File | Caso dimostrato |

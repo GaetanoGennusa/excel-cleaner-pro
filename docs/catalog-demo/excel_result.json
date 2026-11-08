@@ -1,0 +1,50 @@
+﻿[
+    {
+        "width":  1466,
+        "capture_contains_content":  true,
+        "header_bold":  true,
+        "filter":  true,
+        "columns":  8,
+        "has_formula":  false,
+        "freeze_panes":  true,
+        "sheet":  "Cleaned_Data",
+        "rows":  195,
+        "height":  870
+    },
+    {
+        "width":  1466,
+        "capture_contains_content":  true,
+        "header_bold":  true,
+        "filter":  true,
+        "columns":  4,
+        "has_formula":  false,
+        "freeze_panes":  true,
+        "sheet":  "Issues",
+        "rows":  113,
+        "height":  870
+    },
+    {
+        "width":  1466,
+        "capture_contains_content":  true,
+        "header_bold":  true,
+        "filter":  true,
+        "columns":  5,
+        "has_formula":  false,
+        "freeze_panes":  true,
+        "sheet":  "Change_Log",
+        "rows":  1393,
+        "height":  870
+    },
+    {
+        "width":  1466,
+        "capture_contains_content":  true,
+        "header_bold":  true,
+        "filter":  true,
+        "columns":  2,
+        "has_formula":  false,
+        "freeze_panes":  true,
+        "sheet":  "Metadata",
+        "rows":  9,
+        "height":  870
+    }
+]

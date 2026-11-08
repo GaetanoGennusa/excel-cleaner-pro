@@ -1,4 +1,14 @@
-# Video dimostrativo — 45–60 secondi
+# Video catalogo prodotti — registrazione disponibile
+
+Il [video reale](../demo/product_catalog/demo_catalogo.webm) dura **38 secondi**, è muto e mostra il catalogo sintetico nell'app: upload, regole esplicite, anteprima, anomalie, log e download effettivi. Registrato automaticamente in Chromium a 1440 × 1000, movimento ridotto, nessun taglio o accelerazione. Le pause servono a leggere. Non include l'apertura in Excel, documentata separatamente con catture native.
+
+Per presentarlo puoi spiegare: «Questo è un catalogo inventato con 200 righe. Scelgo formati e trasformazioni, conservo i codici e rimuovo soltanto sei copie esatte confermate. Le quattro coppie simili e i valori dubbi restano da valutare. Il report contiene le operazioni e la configurazione.» Il video non ha questa voce fuori campo incorporata.
+
+La [pagina portfolio](../demo/product_catalog/index.html) include il lettore. Procedura di registrazione e verifiche: [CATALOG_DEMO_QA.md](CATALOG_DEMO_QA.md). La scaletta seguente resta una proposta per una futura versione parlata da 45–60 secondi sul caso minimo.
+
+---
+
+# Scaletta precedente — proposta da 45–60 secondi
 
 Obiettivo: mostrare il flusso reale su dati sintetici, con un ritmo calmo e un solo caso. Registrare soltanto ciò che l'app effettivamente esegue. Preparare prima le regole, provare la scaletta e nascondere notifiche o dati personali del desktop.
 
