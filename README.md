@@ -4,6 +4,8 @@
 
 Applicazione locale per pulire e controllare Excel e CSV con regole esplicite, anteprima e tracciabilità. Prototipo da portfolio con test automatici: prima di usarlo per incarichi commerciali occorre completare la verifica manuale descritta in `docs/MANUAL_QA.md`. Nessuna promessa di accuratezza universale o certificazione contabile.
 
+**Sviluppo assistito da AI:** il progetto è stato realizzato con l'assistenza di **Claude (Anthropic)** e **Codex (OpenAI)**, su indicazioni dell'autore del progetto. L'assistenza ha riguardato codice, interfaccia, test e documentazione. L'app elabora i file con regole Python esplicite e non contatta modelli AI durante l'utilizzo.
+
 ![Anteprima reale: catalogo sintetico prima e dopo la pulizia](demo/product_catalog/screenshots/preview.png)
 
 Questo repository contiene codice, documentazione e dati dimostrativi inventati. L'applicazione Streamlit si avvia sul proprio computer. Per esplorare la pagina portfolio interattiva, scarica o clona il progetto e apri `demo/product_catalog/index.html` nel browser; su GitHub il file HTML viene mostrato come codice. Il [video della demo](demo/product_catalog/demo_catalogo.webm) è disponibile come file WebM.

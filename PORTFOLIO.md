@@ -2,6 +2,8 @@
 
 A local Python application for cleaning small Excel and CSV datasets with explicit rules, before/after review and an auditable handover.
 
+**Development disclosure:** built with AI assistance from **Claude (Anthropic)** and **Codex (OpenAI)**, following the project owner's instructions, for code, UI, tests and documentation. Spreadsheet processing uses explicit Python rules, without calls to AI models at runtime.
+
 ## Product catalog demonstration
 
 The main portfolio example is a [local interactive case page](demo/product_catalog/index.html), with [an English case study](demo/product_catalog/CASE_STUDY_EN.md), [service scope](demo/product_catalog/SERVICE_EN.md) and [reproduction instructions](demo/product_catalog/README.md). All records are invented: 200 source rows, 190 distinct SKUs, six confirmed exact copies removed and four similar pairs retained. The result has 194 rows; missing and invalid values remain visible.

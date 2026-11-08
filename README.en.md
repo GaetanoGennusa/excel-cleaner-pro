@@ -4,6 +4,8 @@
 
 A local Python application for cleaning Excel and CSV tables with explicit rules, before/after previews and an auditable XLSX handover. Built with pandas, openpyxl and Streamlit. No paid AI API, mandatory cloud account or telemetry.
 
+**AI-assisted development:** this project was built with assistance from **Claude (Anthropic)** and **Codex (OpenAI)**, following the project owner's instructions. Assistance covered code, UI, tests and documentation. File processing uses explicit Python rules and does not call AI models at runtime.
+
 ![Real application preview with a synthetic product catalog](demo/product_catalog/screenshots/preview.png)
 
 ## What it does

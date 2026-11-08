@@ -2,6 +2,8 @@
 
 Synthetic portfolio demonstration. No client engagement, testimonial or measured business outcome is represented.
 
+Development disclosure: Excel Cleaner Pro and these portfolio materials were created with assistance from Claude (Anthropic) and Codex (OpenAI), following the project owner's instructions. AI assistance covered code, UI, tests and documentation. Uploaded files are processed by explicit Python rules, without calls to AI models at runtime.
+
 ## The input
 
 A deliberately messy CSV contains 200 records and eight columns: SKU, name, category, EUR price, availability, update date, supplier code and notes. It represents 190 invented products, six exact duplicate records and four additional records that differ only in name spacing or case.

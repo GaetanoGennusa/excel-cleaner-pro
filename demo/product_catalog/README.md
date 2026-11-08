@@ -2,6 +2,8 @@
 
 Questa dimostrazione usa 200 righe inventate, relative a 190 SKU distinti. Nessun negozio, cliente, transazione o prezzo reale. È un esempio da portfolio di pulizia e uniformazione di una tabella; non è un catalogo pronto per l'importazione in una specifica piattaforma.
 
+Il progetto e i materiali portfolio sono stati realizzati con l'assistenza di **Claude (Anthropic)** e **Codex (OpenAI)**, su indicazioni dell'autore. L'assistenza riguarda lo sviluppo; la pulizia dei file usa regole Python esplicite e non contatta modelli AI.
+
 Apri **[index.html](index.html)** con un doppio clic per la pagina portfolio locale: confronto interattivo, anomalie selezionate e file scaricabili. Non servono account, server remoto, risorse esterne o installazioni aggiuntive per leggere la pagina. Per elaborare il file nell'app serve l'ambiente Python del progetto.
 
 ## File
