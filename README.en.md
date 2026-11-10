@@ -56,6 +56,6 @@ This is a portfolio application. Manual acceptance and dataset-specific requirem
 
 ## Contact
 
-Have an Excel or CSV file to clean, or questions about the service? Email **[gaetanogennusa@gmail.com](mailto:gaetanogennusa@gmail.com)** or reach me through my GitHub profile [GaetanoGennusa](https://github.com/GaetanoGennusa).
+Have an Excel or CSV file to clean, or questions about the service? Email **[lgrenx@gmail.com](mailto:lgrenx@gmail.com)** or reach me through my GitHub profile [GaetanoGennusa](https://github.com/GaetanoGennusa).
 
 Please do not attach files containing personal or confidential data to a first message. Describe the problem or share a sample with invented data first, so we can agree on rules, formats and a safe way to transfer the file.

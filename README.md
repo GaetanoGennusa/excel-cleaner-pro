@@ -101,6 +101,6 @@ Prova di carico sintetica facoltativa: `.\.venv\Scripts\python.exe -m scripts.be
 
 ## Contatti
 
-Hai un file Excel o CSV da sistemare, o vuoi informazioni sul servizio? Scrivimi a **[gaetanogennusa@gmail.com](mailto:gaetanogennusa@gmail.com)** oppure tramite il profilo GitHub [GaetanoGennusa](https://github.com/GaetanoGennusa).
+Hai un file Excel o CSV da sistemare, o vuoi informazioni sul servizio? Scrivimi a **[lgrenx@gmail.com](mailto:lgrenx@gmail.com)** oppure tramite il profilo GitHub [GaetanoGennusa](https://github.com/GaetanoGennusa).
 
 Per favore non allegare file con dati personali o riservati al primo messaggio: descrivi prima il problema o invia un esempio con dati inventati, così concordiamo insieme regole, formato e modalità di invio.
