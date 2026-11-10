@@ -53,3 +53,9 @@ Original uploads are not saved by the app. XLSX generation uses local temporary 
 Limits: 10 MiB input, 50,000 rows, 200 columns and 500,000 cells per selected dataset. No preservation of original workbook styling, formulas, macros or charts; no fuzzy merging, data enrichment, accounting certification or automatic store upload. Decimal conversion uses ordinary floating-point numbers. CSV opening can cause Excel to reinterpret identifiers: prefer XLSX or import identifier columns as text.
 
 This is a portfolio application. Manual acceptance and dataset-specific requirements remain necessary before commercial delivery. See the [Italian manual and troubleshooting guide](README.md) and [manual checklist](docs/MANUAL_QA.md).
+
+## Contact
+
+Have an Excel or CSV file to clean, or questions about the service? Email **[gaetanogennusa@gmail.com](mailto:gaetanogennusa@gmail.com)** or reach me through my GitHub profile [GaetanoGennusa](https://github.com/GaetanoGennusa).
+
+Please do not attach files containing personal or confidential data to a first message. Describe the problem or share a sample with invented data first, so we can agree on rules, formats and a safe way to transfer the file.

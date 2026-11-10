@@ -98,3 +98,9 @@ Prova di carico sintetica facoltativa: `.\.venv\Scripts\python.exe -m scripts.be
 - CSV in una sola colonna: cambiare separatore e premere Carica dataset. Accenti errati: provare la codifica corretta confrontando l'originale.
 - File rifiutato: controllare limiti, prima riga, protezione/cifratura e formato reale; creare una copia con sole colonne/righe necessarie senza sovrascrivere l'originale.
 - Opzioni cambiate ma risultato precedente: premere Applica; il pannello configurazione mostra sempre l'ultima applicazione riuscita.
+
+## Contatti
+
+Hai un file Excel o CSV da sistemare, o vuoi informazioni sul servizio? Scrivimi a **[gaetanogennusa@gmail.com](mailto:gaetanogennusa@gmail.com)** oppure tramite il profilo GitHub [GaetanoGennusa](https://github.com/GaetanoGennusa).
+
+Per favore non allegare file con dati personali o riservati al primo messaggio: descrivi prima il problema o invia un esempio con dati inventati, così concordiamo insieme regole, formato e modalità di invio.
