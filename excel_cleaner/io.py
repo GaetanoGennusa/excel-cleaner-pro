@@ -50,7 +50,10 @@ def read_csv(data: bytes, encoding: str = "utf-8-sig", separator: str = ",") -> 
         raise InputError("Separatore non supportato.")
     try:
         csv.field_size_limit(MAX_FILE_BYTES)
-        reader = csv.reader(StringIO(data.decode(encoding), newline=""), delimiter=separator, strict=True)
+        text = data.decode(encoding)
+        if not text.strip():
+            raise InputError("Il file è vuoto: non contiene intestazioni né righe da leggere.")
+        reader = csv.reader(StringIO(text, newline=""), delimiter=separator, strict=True)
         headers = next(reader)
         if not headers:
             raise InputError("Intestazione CSV assente.")

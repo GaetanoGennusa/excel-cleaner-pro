@@ -101,3 +101,19 @@ def test_confirmation_alone_keeps_duplicates_and_explains_original_export():
     assert result.removed_rows == 0
     assert result.modified_rows == 0
     assert any("Nessuna trasformazione selezionata" in message.value for message in app.info)
+
+
+def test_number_date_conflict_names_column_and_keeps_last_result():
+    app = AppTest.from_file(str(APP), default_timeout=20).run()
+    source = pd.DataFrame({"code": ["001"], "date": ["01/02/2025"]})
+    app.session_state["original"] = source
+    app.session_state["profile"] = profile_data(source)
+    app.run()
+    button(app, "Applica e mostra anteprima").click().run()
+    next(widget for widget in app.selectbox if widget.label == "date · numero").select("Italiano (1.234,56)")
+    next(widget for widget in app.selectbox if widget.label == "date · data").select("%d/%m/%Y")
+    button(app, "Applica e mostra anteprima").click().run()
+    assert not app.exception
+    assert any("«date»" in message.value for message in app.error)
+    assert app.session_state["result"].config["date_columns"] == {}
+    assert any("Da verificare" in caption.value or "da verificare" in caption.value for caption in app.caption)

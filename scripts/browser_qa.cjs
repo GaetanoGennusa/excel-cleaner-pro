@@ -133,7 +133,7 @@ async function noDownloads(page) {
 }
 
 async function overviewHidden(page) {
-  await page.getByRole('heading', {name: '2 · Data Overview', exact: true}).waitFor({state: 'hidden'});
+  await page.getByRole('heading', {name: '2 · Panoramica dati', exact: true}).waitFor({state: 'hidden'});
   await noDownloads(page);
 }
 
@@ -153,7 +153,7 @@ async function ready(page) {
 async function load(page, file) {
   await page.locator('input[type=file]').setInputFiles(file);
   await press(page, 'Carica dataset');
-  await page.getByRole('heading', {name: '2 · Data Overview', exact: true}).waitFor();
+  await page.getByRole('heading', {name: '2 · Panoramica dati', exact: true}).waitFor();
 }
 
 async function applyRules(page) {
@@ -180,12 +180,12 @@ async function mainFlow(label, reducedMotion, shots) {
   await step(page, `${label}:csv_upload_and_profile`, async () => {
     await load(page, path.resolve('demo/10_before.csv'));
     await page.getByText('Valori nulli', {exact: true}).waitFor();
-    if (shots) await shot(page, '2 · Data Overview', '02_overview.png');
+    if (shots) await shot(page, '2 · Panoramica dati', '02_overview.png');
   });
   await step(page, `${label}:sidebar_navigation`, async () => {
     await page.getByRole('link', {name: 'Regole di pulizia', exact: true}).click();
     await page.waitForURL('**/#rules');
-    const heading = page.getByRole('heading', {name: '3 · Cleaning Rules', exact: true});
+    const heading = page.getByRole('heading', {name: '3 · Regole di pulizia', exact: true});
     await stable(heading);
     const box = await heading.boundingBox();
     assert.ok(box && box.y >= 0 && box.y < DESKTOP.height / 2, `rules heading at ${box && box.y}`);
@@ -204,13 +204,13 @@ async function mainFlow(label, reducedMotion, shots) {
     await applyRules(page);
     // Trim, title for name, Italian amount, date format and deduplication.
     await page.getByText(/^Regole selezionate nell'ultima applicazione: 5\./).waitFor();
-    if (shots) await shot(page, '4 · Preview Changes', '03_preview.png');
+    if (shots) await shot(page, '4 · Anteprima modifiche', '03_preview.png');
   });
   await step(page, `${label}:xlsx_and_csv_downloads`, async () => {
     await press(page, 'Prepara esportazioni');
     await download(page, XLSX_BUTTON, `${label}_report.xlsx`);
     await download(page, CSV_BUTTON, `${label}_data.csv`);
-    if (shots) await shot(page, '5 · Export', '04_export.png');
+    if (shots) await shot(page, '5 · Esporta', '04_export.png');
   });
   await step(page, `${label}:undo_and_reset`, async () => {
     await press(page, 'Annulla ultima applicazione');
@@ -262,7 +262,7 @@ async function sameSessionFlow() {
   });
   await step(page, 'session:csv_encoding_change_invalidates_result', async () => {
     await press(page, 'Carica dataset');
-    await page.getByRole('heading', {name: '2 · Data Overview', exact: true}).waitFor();
+    await page.getByRole('heading', {name: '2 · Panoramica dati', exact: true}).waitFor();
     await applyRules(page);
     await press(page, 'Prepara esportazioni');
     await page.getByRole('button', {name: XLSX_BUTTON, exact: true}).waitFor();
@@ -274,7 +274,7 @@ async function sameSessionFlow() {
     await page.locator('input[type=file]').setInputFiles(path.join(output, 'multi_sheet.xlsx'));
     await page.getByRole('combobox', {name: 'Foglio Excel', exact: true}).waitFor();
     await press(page, 'Carica dataset');
-    await page.getByRole('heading', {name: '2 · Data Overview', exact: true}).waitFor();
+    await page.getByRole('heading', {name: '2 · Panoramica dati', exact: true}).waitFor();
     await page.locator('input[aria-label="code · numero"]').waitFor({state: 'attached'});
     await applyRules(page);
     await press(page, 'Prepara esportazioni');
@@ -342,19 +342,19 @@ async function narrowFlow(label, viewport, prefix) {
     const cut = await page.locator('[data-testid="stCheckbox"] [data-testid="stMarkdownContainer"]').evaluateAll(
       labels => labels.filter(label => label.scrollWidth > label.clientWidth + 1).map(label => label.textContent));
     assert.deepEqual(cut, [], 'truncated checkbox labels');
-    await shot(page, '3 · Cleaning Rules', `${prefix}_rules.png`);
+    await shot(page, '3 · Regole di pulizia', `${prefix}_rules.png`);
   });
   await step(page, `${label}:preview`, async () => {
     await applyRules(page);
     await page.getByText(/^Regole selezionate nell'ultima applicazione: 3\./).waitFor();
     await noPageOverflow(page);
-    await shot(page, '4 · Preview Changes', `${prefix}_preview.png`);
+    await shot(page, '4 · Anteprima modifiche', `${prefix}_preview.png`);
   });
   await step(page, `${label}:export`, async () => {
     await press(page, 'Prepara esportazioni');
     await download(page, XLSX_BUTTON, `${label}_report.xlsx`);
     await noPageOverflow(page);
-    await shot(page, '5 · Export', `${prefix}_export.png`);
+    await shot(page, '5 · Esporta', `${prefix}_export.png`);
   });
   await context.close();
 }

@@ -13,6 +13,7 @@ from openpyxl.styles import Alignment, Font, PatternFill
 from openpyxl.utils import get_column_letter
 
 from .profile import missing
+from .review import summary_it
 from .transforms import CleaningResult
 
 
@@ -55,14 +56,17 @@ def _excel_value(value: object) -> object:
 def export_xlsx(result: CleaningResult) -> bytes:
     if not all(result.integrity.values()):
         raise ValueError("Esportazione bloccata: integrità non verificata.")
+    summary = summary_it(len(result.data), result.removed_rows, result.modified_rows, len(result.changes),
+                         result.issues, result.integrity, result.config)
     metadata = [
+        ["riepilogo", summary],
         ["timestamp_utc", result.timestamp],
         ["configuration_json", json.dumps(result.config, ensure_ascii=False, sort_keys=True)],
         ["ingestion_json", json.dumps(result.data.attrs.get("ingestion", {}), ensure_ascii=False, sort_keys=True)],
         ["integrity_checks_json", json.dumps(result.integrity, sort_keys=True)],
         ["modified_rows", result.modified_rows],
         ["removed_rows", result.removed_rows],
-        ["row_reference", "Source row position, header=1. Issues describe original input. Duplicates removed only if identical in source."],
+        ["row_reference", "Source row position, header=1. Issues describe original input; status and note say whether each one was resolved by the selected rules or still needs review. Duplicates removed only if identical in source."],
         ["export_protection", "All XLSX strings are literal text; native integers over 15 digits exported as text for precision. CSV prefixes risky text with apostrophe. Formatting/macros/formulas not preserved."],
     ]
     tables = [("Cleaned_Data", [list(result.data.columns), *result.data.itertuples(index=False, name=None)]),

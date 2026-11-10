@@ -280,13 +280,13 @@
       "sku": "000045",
       "column": "aggiornato_il",
       "value": "31/02/2026",
-      "issue": "day is out of range for month"
+      "issue": "Data inesistente: giorno o mese fuori intervallo"
     },
     {
       "sku": "000145",
       "column": "aggiornato_il",
       "value": "data da confermare",
-      "issue": "time data 'data da confermare' does not match format '%d/%m/%Y'"
+      "issue": "La data non corrisponde al formato scelto"
     }
   ]
 }

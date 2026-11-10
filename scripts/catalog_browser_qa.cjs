@@ -34,8 +34,8 @@ async function appDemo() {
       await page.locator('input[type=file]').setInputFiles(path.join(catalog,'catalogo_originale.csv'));
       await dwell(page,2500);
       await press(page,'Carica dataset');
-      await page.getByRole('heading',{name:'2 · Data Overview',exact:true}).waitFor();
-      await shot(page,'2 · Data Overview','overview.png');
+      await page.getByRole('heading',{name:'2 · Panoramica dati',exact:true}).waitFor();
+      await shot(page,'2 · Panoramica dati','overview.png');
       await dwell(page,4000);
     });
     await step('catalog:explicit_rules', async()=>{
@@ -56,7 +56,7 @@ async function appDemo() {
       assert.equal(await page.locator('[data-testid="stException"]').count(),0);
     });
     await step('catalog:preview_and_issues', async()=>{
-      await shot(page,'4 · Preview Changes','preview.png');
+      await shot(page,'4 · Anteprima modifiche','preview.png');
       await dwell(page,6500);
       const issues=page.getByRole('tab',{name:'Anomalie della sorgente e conversioni',exact:true});
       await reveal(issues); await issues.click();
@@ -70,7 +70,7 @@ async function appDemo() {
       await press(page,'Prepara esportazioni');
       await download(page,'Scarica report Excel','app_report.xlsx');
       await download(page,'Scarica dati CSV (UTF-8, ;)','app_data.csv');
-      await shot(page,'5 · Export','export.png');
+      await shot(page,'5 · Esporta','export.png');
       await dwell(page,5000);
     });
   } finally { await ctx.close(); }

@@ -9,6 +9,7 @@ import pandas as pd
 
 from .io import unique_headers
 from .profile import ISSUE_COLUMNS, missing, profile_data
+from .review import annotate_issues
 from .validation import integrity_checks
 
 CHANGE_COLUMNS = ["row", "column", "operation", "before", "after"]
@@ -74,7 +75,12 @@ def _date(value: object, fmt: str) -> object:
     # ISO output is accepted to keep transformations idempotent.
     if re.fullmatch(r"\d{4}-\d{2}-\d{2}", text):
         return date.fromisoformat(text).isoformat()
-    parsed = datetime.strptime(text, fmt)
+    try:
+        parsed = datetime.strptime(text, fmt)
+    except ValueError as exc:
+        if "out of range" in str(exc):
+            raise ValueError("Data inesistente: giorno o mese fuori intervallo") from exc
+        raise ValueError("La data non corrisponde al formato scelto") from exc
     if parsed.strftime(fmt) != text:
         raise ValueError("La data non corrisponde esattamente al formato scelto")
     return parsed.date().isoformat()
@@ -88,8 +94,10 @@ def clean(frame: pd.DataFrame, config: CleaningConfig) -> CleaningResult:
     selected = set(config.case_columns) | set(config.number_columns) | set(config.date_columns)
     if not selected.issubset(frame.columns):
         raise ValueError("Una colonna selezionata non esiste nel dataset.")
-    if set(config.number_columns) & set(config.date_columns):
-        raise ValueError("Una colonna non può essere sia numero sia data.")
+    conflicts = sorted(set(config.number_columns) & set(config.date_columns), key=str)
+    if conflicts:
+        names = ", ".join(f"«{c}»" for c in conflicts)
+        raise ValueError(f"Colonna {names}: scegli un formato numero oppure un formato data, non entrambi.")
     if any(v not in {"it", "international"} for v in config.number_columns.values()):
         raise ValueError("Formato numerico sconosciuto.")
     if any(v not in {"lower", "upper", "title"} for v in config.case_columns.values()):
@@ -146,8 +154,10 @@ def clean(frame: pd.DataFrame, config: CleaningConfig) -> CleaningResult:
         output = output.iloc[~duplicate_mask].copy()
     # Profile the source so issue row references always match audit/source positions.
     issues = pd.concat([profile_data(frame)["issues"], pd.DataFrame(conversion_issues, columns=ISSUE_COLUMNS)], ignore_index=True)
+    change_log = pd.DataFrame(changes, columns=CHANGE_COLUMNS)
+    issues = annotate_issues(issues, change_log, config.date_columns)
     integrity = integrity_checks(frame, output, removed, config.drop_duplicates and config.confirm_duplicates)
     if not all(integrity.values()):
         raise ValueError("Controlli di integrità falliti: esportazione bloccata.")
-    return CleaningResult(output, issues, pd.DataFrame(changes, columns=CHANGE_COLUMNS), integrity,
+    return CleaningResult(output, issues, change_log, integrity,
                           len(affected), removed, asdict(config), datetime.now(timezone.utc).isoformat())

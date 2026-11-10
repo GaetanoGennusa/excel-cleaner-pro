@@ -42,7 +42,7 @@ Open `http://127.0.0.1:8501`. Excel is not required to run the application. `req
 .\.venv\Scripts\python.exe -m pytest -q
 ```
 
-The latest local suite passed **54 tests**. Separate real-browser checks covered **31 general steps**, **4 catalog steps** and **5 portfolio steps**, including actual downloads. The downloaded catalog workbook was opened read-only in Microsoft Excel and native window captures inspected. These are recorded outcomes, not CI badges or guarantees. [QA report](docs/CATALOG_DEMO_QA.md).
+The latest local suite passed **65 tests** (10 November 2026, after the manual acceptance run and its clarity fixes); the browser figures below predate those fixes. Separate real-browser checks covered **31 general steps**, **4 catalog steps** and **5 portfolio steps**, including actual downloads. The downloaded catalog workbook was opened read-only in Microsoft Excel and native window captures inspected. These are recorded outcomes, not CI badges or guarantees. [QA report](docs/CATALOG_DEMO_QA.md).
 
 Optional browser checks use an existing Node/Playwright/Chromium installation and never download it automatically. See [browser requirements](docs/BROWSER_QA.md).
 

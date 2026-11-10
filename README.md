@@ -2,7 +2,7 @@
 
 [English project overview](README.en.md) · [Portfolio e demo](PORTFOLIO.md) · [Verifiche](docs/CATALOG_DEMO_QA.md)
 
-Applicazione locale per pulire e controllare Excel e CSV con regole esplicite, anteprima e tracciabilità. Prototipo da portfolio con test automatici: prima di usarlo per incarichi commerciali occorre completare la verifica manuale descritta in `docs/MANUAL_QA.md`. Nessuna promessa di accuratezza universale o certificazione contabile.
+Applicazione locale per pulire e controllare Excel e CSV con regole esplicite, anteprima e tracciabilità. Prototipo da portfolio con test automatici. Il 10 novembre 2026 l'autore ha eseguito il collaudo manuale principale (caricamento, regole, report in Excel, formule, file non validi): esito e prove ancora aperte in `docs/MANUAL_QA.md`. Nessuna promessa di accuratezza universale o certificazione contabile.
 
 **Sviluppo assistito da AI:** il progetto è stato realizzato con l'assistenza di **Claude (Anthropic)** e **Codex (OpenAI)**, su indicazioni dell'autore del progetto. L'assistenza ha riguardato codice, interfaccia, test e documentazione. L'app elabora i file con regole Python esplicite e non contatta modelli AI durante l'utilizzo.
 
@@ -50,7 +50,7 @@ Cambiare file, foglio o impostazioni CSV invalida il risultato corrente. **Cance
 
 ## Report e integrità
 
-Il report ha quattro fogli: **Cleaned_Data**, **Issues**, **Change_Log**, **Metadata**. Tutte le anomalie e gli eventi sono esportati; la UI ne mostra al massimo 1.000. I riferimenti di riga indicano la posizione nella sorgente, intestazione = 1, anche dopo le eliminazioni. Issues descrive problemi nella sorgente e conversioni fallite: un avviso può rimanere anche se una regola ha corretto il testo.
+Il report ha quattro fogli: **Cleaned_Data**, **Issues**, **Change_Log**, **Metadata**. Tutte le anomalie e gli eventi sono esportati; la UI ne mostra al massimo 1.000. I riferimenti di riga indicano la posizione nella sorgente, intestazione = 1, anche dopo le eliminazioni. Issues descrive problemi nella sorgente e conversioni fallite; le colonne `status` e `note` dicono se ogni segnalazione è stata **risolta** dalle regole scelte, è **da verificare** o è **protetta** all'esportazione. Il foglio Metadata si apre con un `riepilogo` in italiano, seguito dalle impostazioni tecniche.
 
 Change_Log registra per cella regola, prima e dopo; può avere più eventi per la stessa cella. Le righe modificate contano una sola volta le righe con modifiche alle celle, anche se poi eliminate; le eliminazioni sono contate a parte. Cambiare un'intestazione non modifica il conteggio delle righe dati. Metadata contiene timestamp UTC, configurazione, mappatura intestazioni/importazione e risultati reali dei controlli: bilancio delle righe, numero colonne, intestazioni univoche, autorizzazione eliminazioni e ordine. I controlli strutturali non provano che una data o un importo siano corretti per il cliente.
 

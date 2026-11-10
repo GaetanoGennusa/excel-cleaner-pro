@@ -7,6 +7,7 @@ from excel_cleaner.config import PREVIEW_ROWS
 from excel_cleaner.export import export_csv, export_xlsx
 from excel_cleaner.io import InputError, excel_sheets, read_csv, read_excel
 from excel_cleaner.profile import profile_data
+from excel_cleaner.review import PROTECTED, RESOLVED, TO_CHECK, status_counts
 from excel_cleaner.transforms import CleaningConfig, clean
 from ui.presentation import (apply_design, brand, file_badge, hero_badge, hero_chips, hero_demo, hero_lede, integrity_summary,
                              rule_count, tag, workflow)
@@ -61,7 +62,7 @@ def update_navigation() -> None:
 
 
 with st.container(border=True, key="upload_card"):
-    st.header("1 · Upload", anchor="upload")
+    st.header("1 · Carica il file", anchor="upload")
     st.caption("Parti da un file: scegli la sorgente e controlla il contenuto prima di modificarlo.")
     upload_area, guide_area = st.columns([1.7, 1], gap="large")
     with guide_area, st.container(key="upload_guide"):
@@ -104,7 +105,7 @@ if "original" not in st.session_state:
 original = st.session_state.original
 profile = st.session_state.profile
 with st.container(border=True, key="overview_card"):
-    st.header("2 · Data Overview", anchor="overview")
+    st.header("2 · Panoramica dati", anchor="overview")
     if st.session_state.get("loaded_name"):
         st.text(f"Sorgente attiva: {st.session_state.loaded_name}")
     metrics = st.container(key="overview_metrics").columns(5)
@@ -120,7 +121,7 @@ with st.container(border=True, key="overview_card"):
     st.caption("Intestazioni vuote o duplicate ricevono nomi distinti, con mappatura nel report.")
 
 with st.container(border=True, key="rules_card"):
-    st.header("3 · Cleaning Rules", anchor="rules")
+    st.header("3 · Regole di pulizia", anchor="rules")
     st.caption("Attiva soltanto le regole che ti servono. Ogni applicazione riparte dalla sorgente.")
     rules_version = st.session_state.get("rules_version", 0)
     with st.form(f"rules_{rules_version}", border=False):
@@ -131,7 +132,7 @@ with st.container(border=True, key="rules_card"):
         headers = right.checkbox("Standardizza intestazioni (minuscole e underscore)", value=False)
         columns = list(original.columns)
         a, b = text_panel.columns(2)
-        case_cols = a.multiselect("Colonne da normalizzare come testo", columns)
+        case_cols = a.multiselect("Colonne da normalizzare come testo", columns, placeholder="Scegli una o più colonne")
         case_mode = b.selectbox("Maiuscole/minuscole", ["lower", "upper", "title"])
         text_panel.caption("lower: minuscolo · upper: maiuscolo · title: iniziale maiuscola per ogni parola.")
         number_columns, date_columns = {}, {}
@@ -157,7 +158,11 @@ with st.container(border=True, key="rules_card"):
     if apply:
         try:
             with st.status("Applicazione regole e verifiche…", expanded=False) as status:
-                candidate = clean(original, CleaningConfig(trim, headers, {c: case_mode for c in case_cols}, number_columns, date_columns, drop_duplicates, confirmed))
+                try:
+                    candidate = clean(original, CleaningConfig(trim, headers, {c: case_mode for c in case_cols}, number_columns, date_columns, drop_duplicates, confirmed))
+                except ValueError:
+                    status.update(label="Regole non applicate: correggi l'impostazione indicata qui sotto", state="error")
+                    raise
                 st.session_state.undo = st.session_state.get("result")
                 st.session_state.result = candidate
                 st.session_state.pop("report", None)
@@ -169,7 +174,7 @@ with st.container(border=True, key="rules_card"):
                 st.info("Le nuove regole non sono state applicate. È ancora visibile l'ultima versione riuscita, con la sua configurazione.")
 
 with st.container(border=True, key="preview_card"):
-    st.header("4 · Preview Changes", anchor="preview")
+    st.header("4 · Anteprima modifiche", anchor="preview")
     controls = st.container(horizontal=True, key="preview_actions")
     if controls.button("Annulla ultima applicazione", disabled="result" not in st.session_state or "undo" not in st.session_state):
         previous = st.session_state.pop("undo", None)
@@ -208,6 +213,8 @@ with st.container(border=True, key="preview_card"):
     b.dataframe(result.data.head(PREVIEW_ROWS), width="stretch")
     st.caption(f"Prime {PREVIEW_ROWS} righe · {len(result.changes)} eventi di modifica. Le intestazioni non contano come righe dati modificate; righe modificate ed eliminate sono contate separatamente.")
     integrity_summary(result.integrity)
+    counts = status_counts(result.issues)
+    st.caption(f"Segnalazioni: {counts[TO_CHECK]} da verificare · {counts[RESOLVED]} risolte dalle regole · {counts[PROTECTED]} protette all'esportazione.")
     issues_tab, log_tab = st.tabs(["Anomalie della sorgente e conversioni", "Log operazioni"])
     issues_tab.dataframe(result.issues.head(1000), width="stretch")
     log_tab.dataframe(result.changes.head(1000), width="stretch")
@@ -217,7 +224,7 @@ with st.container(border=True, key="preview_card"):
         st.json(result.config)
 
 with st.container(border=True, key="export_card"):
-    st.header("5 · Export", anchor="export")
+    st.header("5 · Esporta", anchor="export")
     st.write("Porta con te i dati puliti e la traccia di ogni scelta.")
     if st.button("Prepara esportazioni", type="primary"):
         st.session_state.csv_export = export_csv(result.data)
@@ -230,7 +237,7 @@ with st.container(border=True, key="export_card"):
     a, b = st.container(key="export_options").columns(2, gap="medium")
     with a, st.container(key="export_xlsx"):
         file_badge("xlsx")
-        st.markdown("**Report Excel**\n\nDati, anomalie, log e metadati in quattro fogli. Consigliato per conservare codici e zeri iniziali.")
+        st.markdown("**Report Excel**\n\nDati puliti, segnalazioni con il loro stato, log delle modifiche e metadati con riepilogo in italiano, in quattro fogli. Consigliato per conservare codici e zeri iniziali.")
         if "report" in st.session_state:
             st.download_button("Scarica report Excel", st.session_state.report, "excel_cleaner_report.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", width="stretch")
         else:
